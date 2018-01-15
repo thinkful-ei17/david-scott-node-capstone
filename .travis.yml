@@ -2,3 +2,10 @@ language: node_js
 node_js: node
 services:
 - mongodb
+deploy:
+  provider: heroku
+  api_key:
+    secure: Ttvdt89zIuMZAf/380oSEJcg/7TQh/qb2ibe2PcLEdLPrRB1sDzeIiNCk5UpdL8yvf9RwjWhHKq+CpFA9tbvcqnbLalx9bBvGRm7IUttRzqkStKpIqx4iU9kGMwdxlTBOV/0BZjNK/TT1I6+2XXWH4bmnEq+OmnF2TF+nuVtcrQJXT4L8CjcBj0RMrj4jrLKXDcnkgBEAbhEfm5Qu1rYKgRX+gg3M1ChgKVqerAZ4t8FysxAt1SkwYzmdnOYGAxE0GiPLZKP+sdEKcM/BU8zmFEYC5JNvhXg4QVhl8sSQDqM3Vzm8SuRVPqDsKfXlwclD9YeNG3RKiRHUX8SL8wqaTiJlXbsG659nd058lj6hIXankEpXME72+GoQ2FqAuf9mE1TxyfTSddc/JbyEWJolc65oX5LOp2v0WBB2PpbWZX62kSYelHJ986bD+6lqteIDs1tPfQxxl1PYrvgcY9K8dn3BGLEFtLzxxNXq0Qoz2rrHbmE8NvANlJatXg5ch1yB8dCrePxCx9tfDy+icvh4ZKk2B4jJQx5UyV+p9l5AaikMv6nnVXvBlRYmBVDgmQ/I7J2pQFD1tx2yR1gKHqz8beKCT37A7LpGFjYD9ExvB00y+OHPL3rH7S1Mp59/82wkjiMw8gUNAQVIZIkfta2qXoHUdjinslaAt+Te2ueppY=
+  app: david-scott-node-capstone
+  on:
+    repo: thinkful-ei17/david-scott-node-capstone
