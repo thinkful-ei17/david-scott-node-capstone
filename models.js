@@ -2,6 +2,7 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
+const {DATABASE_URL} = require('./config');
 
 const SongSchema = new mongoose.Schema({
     title: {type: String, required: true},
@@ -17,6 +18,9 @@ const UserSchema = new mongoose.Schema({
     songs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Song'}]
 });
 
+const User = mongoose.model('User', UserSchema);
+const Song = mongoose.model('Song', SongSchema);
+
 mongoose.connect(DATABASE_URL)
     .then(function(){
         mongoose.connection.db.dropDatabase();
@@ -29,15 +33,17 @@ mongoose.connect(DATABASE_URL)
 
         ]);
 
+        
+        ])
+    
+    return songs
+    }).then(songs => {
+
         const users = User.create([
             {username: "joe45", firstName: "joe", lastName:"schmoe"},
             {username: "anne54", firstName: "anne", lastName:"someone"},
             {username: "chris", firstName: "jordan", lastName:"green"}
 
-        ])
-    
-    return songs
-    }).then(songs => {
         console.log(songs);
     })
 
@@ -46,6 +52,5 @@ mongoose.connect(DATABASE_URL)
 // const User = mongoose.model('User', userSchema);
 // const Song = mongoose.model('Song', songSchema);
 
-exports.User = mongoose.model('User', userSchema);
-exports.Song = mongoose.model('Song', songSchema);
+module.exports = {User, Song};
 
