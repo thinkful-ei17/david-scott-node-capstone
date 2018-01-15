@@ -4,6 +4,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const routerSong = require('./routers/router.song');
+const routerUser = require('./routers/router.user');
 
 mongoose.Promise = global.Promise;
 
@@ -14,6 +16,8 @@ const app = express();
 app.use(express.static('public'));
 app.use(morgan('common'));
 app.use(bodyParser.json());
+app.use('/songs', routerSong);
+app.use('/users', routerUser);
 
 
 app.get('/', (req, res) => {
