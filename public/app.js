@@ -1,6 +1,8 @@
 /* global $ */
 'use strict';
 
+
+
 function generateAddPageHTML() {
   return `
   <form id="add" class="view">
