@@ -18,7 +18,27 @@
 		</div>
 
 		<div class="page"></div>
-
+		<form id="add" class="view">
+				<fieldset>
+					<div>
+						<label for="title">Title</label>
+						<input type="text" name="title">
+					</div>
+					<div>
+						<label for="artist">Artist</label>
+						<input type="text" name="artist">
+					</div> 
+					<div>
+						<label for="lyrics">Lyrics</label>
+						<textarea type="text" rows="10" cols="50" name="lyrics"></textarea>
+					</div>
+					<div>
+						<label for="notes">Notes</label>
+						<input type="text" name="notes">
+					</div>
+				</fieldset>
+				<button id="submit-add">Submit</button>
+			</form>
 		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 		<script src="app.js"></script>
 	</body>
