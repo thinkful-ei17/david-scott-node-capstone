@@ -48,7 +48,25 @@ router.post('/', (req, res) => {
     .catch(err=>console.error(err));
 });   
 
-// router.put()
+router.put('/:id', (req, res) => {
+  
+  const fieldsToUpdate = {};
+
+  const updateableFields = ['firstName', 'lastName', 'songs'];
+  
+  updateableFields.forEach(field => {
+    if (field in req.body) {
+      fieldsToUpdate[field] = req.body[field];
+    }
+  });
+
+  User
+    .findByIdAndUpdate(`${req.params.id}`, {$set: fieldsToUpdate}, {new: true})
+    .then(results => {
+    res.status(204).json(results)
+    })
+    .catch(err => console.error(err));
+});
 
 // router.delete()
 
