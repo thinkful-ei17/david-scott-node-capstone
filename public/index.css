@@ -35,3 +35,6 @@ nav {
 a {
   text-decoration: none;
 }
+.search-result {
+  display: block;
+}

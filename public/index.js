@@ -7,13 +7,11 @@ const STORE = {
 };
 
 function renderSearchForm(){
-  // renderTitleSearchInput();
-  // renderUserDropdown();
-  // renderSearchButton();
-  $('main').html(generateSearchForm());
+  console.log('renderSearchForm ran');
+  $('main').html(generateSearchFormHTML());
 }
 
-function generateSearchForm(){
+function generateSearchFormHTML(){
     return `
       <form name='search-form' class='search-form, js-search-form' id='search-form'>
         <h2 for='search-form'>
@@ -34,18 +32,36 @@ function generateSearchForm(){
     `
 }
 
-renderSearchForm();
 
 
-function renderSearch(){
-  renderSearchForm();
 
+
+function generateResultsHTML(){
+  console.log('generateSearchResultsHTML ran');
+
+  return `
+    <header>
+      <h1>Pick A Song!</h1>
+    </header>
+
+    <section class='show-results, js-show-results'>
+      <ul class='results-list, js-results-list'>
+        <li class='search-result'><a href=''>Song 1</a></li>
+        <li class='search-result'><a href=''>Song 2</a></li>
+        <li class='search-result'><a href=''>Song 3</a></li>
+      </ul>
+    </section>
+  `
 }
 
 function renderSearchResults(){
-
+  console.log('renderSearchResults ran');
+ $('main').html(generateResultsHTML());
 }
 
+
+// renderSearchForm();
+renderSearchResults();
 
 
 function renderPage(){
