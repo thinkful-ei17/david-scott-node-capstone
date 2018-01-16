@@ -34,7 +34,23 @@ router.get('/:id', (req, res) => {
     });
 });
 
+router.post('/', (req, res) => {
+  
+  User
+    .create({
+      username: req.body.username,
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      songs: req.body.songs
+    })
+    .then(user =>
+    res.status(201).json(user))
+    .catch(err=>console.error(err));
+});   
 
+// router.put()
+
+// router.delete()
 
 
 
