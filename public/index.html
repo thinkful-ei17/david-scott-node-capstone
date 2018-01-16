@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<meta http-equiv="X-UA-Compatible" content="ie=edge">
-			<title>Pub Song Lyrics App</title>
-	</head>
 
-	<body>
-		<div class="nav-bar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="index.css">
+    <title>Song Cellar</title>
+</head>
+
+<body>
+  	<div class="nav-bar">
 			<nav class="nav" role="navigation">
 				<a href="" id="nav-home" class="nav-link">Home</a>
 				<a href="" id="nav-search" class="nav-link">Search</a>
@@ -16,30 +18,57 @@
 				<a href="" id="nav-list" class="nav-link">List</a>
 			</nav>
 		</div>
+    <div class='page, js-page'>
+    <main>
+        <!-- <header>
+                <h1>Pick A Song!</h1>
+        </header>
+        
+        <section class='show-results, js-show-results'>
+            <ul class='results-list, js-results-list'>
+                <li class='search-result'><a href=''>Song 1</a></li>
+                <li class='search-result'><a href=''>Song 2</a></li>
+                <li class='search-result'><a href=''>Song 3</a></li>
+            </ul>
+        </section> -->
+    </main>     
+        <!-- <form name='search-form' class='search-form, js-search-form' id='search-form'>
+            <h2 for='search-form'>
+                Search the Database!
+            </h2>
+            <lable for='title-input' class='search-lable'>Search by Title</lable>
+            <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
+            <lable for='title-search' class='search-lable'>Search By User</lable>
+            <select name='title-search' class='title-search, js-title-search' id='title-search' form='search-form'>
+                <option>song 1</option>
+                <option>song 2</option>
+                <option>song 3</option>
+            </select>
+            <button class='search-button, js-search-button'>
+                Search Now!
+            </button>
+        </form> -->
+      
+    <!-- <header>   
+        <h1>Welcome to Song Cellar!</h1>
+        <h2>Refresh your memory while filing your glass!</h2>
+    </header>
 
-		<div class="page"></div>
-		<form id="add" class="view">
-				<fieldset>
-					<div>
-						<label for="title">Title</label>
-						<input type="text" name="title">
-					</div>
-					<div>
-						<label for="artist">Artist</label>
-						<input type="text" name="artist">
-					</div> 
-					<div>
-						<label for="lyrics">Lyrics</label>
-						<textarea type="text" rows="10" cols="50" name="lyrics"></textarea>
-					</div>
-					<div>
-						<label for="notes">Notes</label>
-						<input type="text" name="notes">
-					</div>
-				</fieldset>
-				<button id="submit-add">Submit</button>
-			</form>
-		<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-		<script src="app.js"></script>
-	</body>
+    <form>
+   
+        <button class='to-search, js-to-search' id='to-search'>To the Search!</button> 
+        
+        <button class='to-add, js-add' id='to-add'>Add Lyrics Here!</button>
+    </form> -->
+
+
+
+
+
+
+</div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="crossorigin="anonymous"></script>
+    <script src="index.js"></script>
+</body>
+
 </html>
