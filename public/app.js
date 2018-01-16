@@ -13,8 +13,8 @@ function generateHomePageHTML(){
   </header>
 
   <form>
-    <button class='to-search, js-to-search' id='to-search'>To the Search!</button> 
-    <button class='to-add, js-add' id='to-add'>Add Lyrics Here!</button>
+    <button class='to-search, js-to-search' id='home-submit-search'>To the Search!</button> 
+    <button class='to-add, js-add' id='home-submit-add'>Add Lyrics Here!</button>
   </form>
   `
 }
@@ -22,6 +22,7 @@ function generateHomePageHTML(){
 function renderHomePage(){
   $('main').html(generateHomePageHTML());
 }
+
 
 function generateAddPageHTML() {
   return `
@@ -59,14 +60,14 @@ function generateReadPageHTML() {
 }
 
 function renderAddPage() {
-  return generateAddPageHTML;
+  $('main').html(generateAddPageHTML());
 }
 
 function renderReadPage() {
-  return generateReadPageHTML;
+  $('main').html(generateReadPageHTML());
 }
 
-function renderSearchForm(){
+function renderSearchPage(){
   console.log('renderSearchForm ran');
   $('main').html(generateSearchFormHTML());
 }
@@ -85,7 +86,7 @@ function generateSearchFormHTML(){
         <option>song 2</option>
         <option>song 3</option>
       </select>
-      <button class='search-button, js-search-button'>
+      <button class='search-button, js-search-button' id='search-submit'>
         Search Now!
       </button>
       </form>
@@ -110,14 +111,14 @@ function generateResultsHTML(){
   `
 }
 
-function renderSearchResults(){
+function renderSearchResultsPage(){
   console.log('renderSearchResults ran');
  $('main').html(generateResultsHTML());
 }
 
 
 // renderSearchForm();
-renderSearchResults();
+// renderSearchResults();
 
 
 
@@ -127,29 +128,27 @@ renderSearchResults();
 
 function renderPage() {
   switch (STORE.view) {
-  case 'home': $('.page').html.renderHomePage();
+  case 'home': 
+    renderHomePage();
     break;
-  case 'search': $('.page').html.renderSearchPage();
+
+   case 'search':
+    renderSearchPage();
     break;
-  case 'search-results': $('.page').html.renderSearchResultsPage();
+  case 'search-results':
+    renderSearchResultsPage();
     break;
-  case 'add': $('.page').html.renderAddPage();
+  case 'add': 
+    renderAddPage();
     break;
-  case 'read': $('.page').html.renderReadPage();
+  case 'read': 
+    renderReadPage();
     break;
   }
 }
 
 
-
-
-
-
-
-
-$(() => {
-  renderPage();
-
+function navBarEventListeners(){
   $('.nav-bar').on('click', '#nav-home', () => {
     STORE.view = 'home';
     renderPage();
@@ -164,28 +163,40 @@ $(() => {
     STORE.view = 'add';
     renderPage();
   });
+}
 
-  $('.page').on('submit', '#home-submit-search', event => {
+
+
+
+
+$(() => {
+  renderPage();
+  navBarEventListeners();
+  
+
+  $('main').on('click', '#home-submit-search', event => {
     event.preventDefault();
     STORE.view = 'search';
+    renderPage();
 
   });
 
-  $('.page').on('submit', '#home-submit-add', event => {
+  $('main').on('click', '#home-submit-add', event => {
     event.preventDefault();
     STORE.view = 'add';
-
+    renderPage();
   });
 
-  $('.page').on('submit', '#search-submit', event => {
+  $('main').on('submit', '#search-form', event => {
     event.preventDefault();
     STORE.view = 'search-results';
-
+    renderPage();
   });
 
-  $('.page').on('submit', '#add-submit', event => {
+  $('main').on('submit', '#add', event => {
     event.preventDefault();
     STORE.view = 'read';
+    renderPage();
 
   });
 
