@@ -1,9 +1,7 @@
-/* global $ */
+/* global $ api Store */
 'use strict';
 
-const STORE = {
-  view: 'home', //home, search, search-results, add, read
-};
+const STORE = new Store();
 
 function generateHomePageHTML(){
   return `
@@ -16,7 +14,7 @@ function generateHomePageHTML(){
     <button class='to-search, js-to-search' id='home-submit-search'>To the Search!</button> 
     <button class='to-add, js-add' id='home-submit-add'>Add Lyrics Here!</button>
   </form>
-  `
+  `;
 }
 
 function renderHomePage(){
@@ -26,7 +24,7 @@ function renderHomePage(){
 
 function generateAddPageHTML() {
   return `
-  <form id="add" class="view">
+  <form id="add-form" class="view">
     <fieldset>
       <div>
         <label for="title">Title</label>
@@ -68,12 +66,12 @@ function renderReadPage() {
 }
 
 function renderSearchPage(){
-  console.log('renderSearchForm ran');
-  $('main').html(generateSearchFormHTML());
+  console.log('renderSearchPage ran');
+  $('main').html(generateSearchPageHTML());
 }
 
-function generateSearchFormHTML(){
-    return `
+function generateSearchPageHTML(){
+  return `
       <form name='search-form' class='search-form, js-search-form' id='search-form'>
         <h2 for='search-form'>
         Search the Database!
@@ -82,18 +80,16 @@ function generateSearchFormHTML(){
       <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
       <lable for='title-search' class='search-lable'>Search By User</lable>
       <select name='title-search' class='title-search, js-title-search' id='title-search' form='search-form'>
-        <option>song 1</option>
-        <option>song 2</option>
-        <option>song 3</option>
+      ${generateUserOptionsHTML()}
       </select>
       <button class='search-button, js-search-button' id='search-submit'>
         Search Now!
       </button>
       </form>
-    `
+    `;
 }
 
-function generateResultsHTML(){
+function generateSearchResultsHTML() {
   console.log('generateSearchResultsHTML ran');
 
   return `
@@ -108,22 +104,28 @@ function generateResultsHTML(){
         <li class='search-result'><a href=''>Song 3</a></li>
       </ul>
     </section>
-  `
+  `;
 }
 
-function renderSearchResultsPage(){
+function renderSearchResultsPage() {
   console.log('renderSearchResults ran');
- $('main').html(generateResultsHTML());
+  $('main').html(generateSearchResultsHTML());
 }
 
+function getUsers() {
+  api.searchAllUsers()
+    .then(response => {
+      STORE.users = response.map(res => res.username);
+    })
+    .catch(err => console.error(err));
+}
 
-// renderSearchForm();
-// renderSearchResults();
-
-
-
-
-
+function generateUserOptionsHTML() {
+  const userOptions = STORE.users.map(user => {
+    return `<option class="user">${user}</option>`;
+  });
+  return userOptions;
+}
 
 
 function renderPage() {
@@ -131,8 +133,7 @@ function renderPage() {
   case 'home': 
     renderHomePage();
     break;
-
-   case 'search':
+  case 'search':
     renderSearchPage();
     break;
   case 'search-results':
@@ -166,19 +167,15 @@ function navBarEventListeners(){
 }
 
 
-
-
-
 $(() => {
   renderPage();
+  getUsers();
   navBarEventListeners();
-  
 
   $('main').on('click', '#home-submit-search', event => {
-    event.preventDefault();
     STORE.view = 'search';
-    renderPage();
 
+    renderPage();
   });
 
   $('main').on('click', '#home-submit-add', event => {
@@ -193,7 +190,7 @@ $(() => {
     renderPage();
   });
 
-  $('main').on('submit', '#add', event => {
+  $('main').on('submit', '#add-form', event => {
     event.preventDefault();
     STORE.view = 'read';
     renderPage();
