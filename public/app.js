@@ -97,25 +97,11 @@ function generateSearchPageHTML(){
     `;
 }
 
-
-
-
-// searchFormSubmit();
-
-
-// function getSongsFromUser(username){
-//   console.log("store.users:", STORE.users);
-//   const user = STORE.users.find(user => user.username = username);
-//   console.log('user:',user);
-//   //  const user = STORE.users.find(user => STORE.users.username = username);
-//   //  console.log(user);
-// }   
-
 function searchSongByTitle(titleToSearch){
-  const titles = STORE.list
+  const titles = STORE.list;
   const song = titles.filter(title => title.title === titleToSearch);
   console.log('song:', song);
-  STORE.song = song;
+  STORE.currentSong = song;
 }
 
 function searchSongByUser(userToSearch){
@@ -128,7 +114,6 @@ function searchSongByUser(userToSearch){
   console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
   // renderPage();
 }
-
 
 
 function renderSearchPage(){
@@ -267,7 +252,6 @@ function songDetails(event) {
     });
 }
 
-
 function renderPage() {
   switch (STORE.view) {
   case 'home': 
@@ -331,25 +315,25 @@ $(() => {
 
   $('main').on('click', '#home-submit-add', event => {
     event.preventDefault();
-    console.log('#home-submit-add was clicked')
+    console.log('#home-submit-add was clicked');
     STORE.view = 'add';
     renderPage();
   });
 
   $('main').on('submit', '#search-form', event => {
-      event.preventDefault();
-      const titleToSearch = $('.js-title-input').val();
-      const userToSearch = $('.js-user-search').val();
-      if(titleToSearch){
-        searchSongByTitle(titleToSearch);
-        STORE.view = 'read';
-      }
-      if(userToSearch){
-        searchSongByUser(userToSearch);
-        STORE.view = 'search-results';
-      }
-     renderPage();
-    });  
+    event.preventDefault();
+    const titleToSearch = $('.js-title-input').val();
+    const userToSearch = $('.js-user-search').val();
+    if(titleToSearch){
+      searchSongByTitle(titleToSearch);
+      STORE.view = 'read';
+    }
+    if(userToSearch){
+      searchSongByUser(userToSearch);
+      STORE.view = 'search-results';
+    }
+    renderPage();
+  });  
 
 
   $('main').on('submit', '#add-form', event => {
