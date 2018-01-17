@@ -2,7 +2,7 @@
 
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
-const {DATABASE_URL} = require('./config');
+// const {DATABASE_URL} = require('./config');
 
 const SongSchema = mongoose.Schema({
   title: {type: String, required: true},
@@ -11,6 +11,15 @@ const SongSchema = mongoose.Schema({
   notes: {type: String, default:''}
 });
 
+SongSchema.methods.serialize = function() {
+  return {
+    id: this.id,
+    title: this.title,
+    artist: this.artist,
+    notes: this.notes
+  };
+};
+
 const UserSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true},
   firstName: {type: String},
@@ -18,6 +27,31 @@ const UserSchema = mongoose.Schema({
   songs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Song'}]
 });
 
+UserSchema.virtual('name').get(function () {
+  return `${this.firstName} ${this.lastName}`.trim();
+});
+
+UserSchema.methods.serialize = function () {
+  return {
+    id: this._id,
+    username: this.username,
+    name: this.name,
+    songs: this.songs.map(song => {
+      return {
+        song_id: song._id,
+        title: song.title,
+        artist: song.artist
+      };
+    })
+  };
+};
+
+// "_id": "5a5d27ad329925a308e1f46f",
+//   "title": "New new new!",
+//     "lyrics": "Singing a newer song",
+//       "__v": 0,
+//         "notes": "none2",
+//           "artist": "artist2"
 const User = mongoose.model('User', UserSchema);
 const Song = mongoose.model('Song', SongSchema);
 
