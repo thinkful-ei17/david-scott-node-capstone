@@ -25,24 +25,28 @@ function generateAddPageHTML() {
   return `
   <form id="add-form" class="view">
     <fieldset>
+      <span>User</span>
+      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form'>
+      ${generateUserOptionsHTML()}
+      </select>
       <div>
         <label for="title">Title</label>
-        <input type="text" name="title">
+        <input type="text" name="title" required>
       </div>
       <div>
-        <label for="author">Author</label>
-        <input type="text" name="author">
+        <label for="artist">Artist</label>
+        <input type="text" name="artist">
       </div> 
       <div>
         <label for="lyrics">Lyrics</label>
-        <textarea type="text" rows="10" cols="50" name="lyrics"></textarea>
+        <textarea type="text" rows="10" cols="50" name="lyrics" required></textarea>
       </div>
       <div>
         <label for="notes">Notes</label>
         <input type="text" name="notes">
       </div>
+      <button id="submit-add">Submit</button>
     </fieldset>
-    <button id="submit-add">Submit</button>
   </form>`;
 }
 
@@ -144,6 +148,22 @@ function getOneSong(id) {
     .catch(err => console.error(err));
 }
 
+function createSong(event) {
+  const el = $(event.target);
+  const song = {
+    title: el.find('[name=title]').val(),
+    lyrics: el.find('[name=lyrics]').val(),
+    artist: el.find('[name=artist]').val(),
+    notes: el.find('[name=notes]').val()
+  };
+  api.create(song)
+    .then(response => {
+      STORE.insert(response);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
 
 function renderPage() {
   switch (STORE.view) {
@@ -164,7 +184,6 @@ function renderPage() {
     break;
   }
 }
-
 
 function navBarEventListeners(){
   $('.nav-bar').on('click', '#nav-home', () => {
@@ -211,6 +230,7 @@ $(() => {
 
   $('main').on('submit', '#add-form', event => {
     event.preventDefault();
+    createSong(event);
     STORE.view = 'read';
     renderPage();
 
