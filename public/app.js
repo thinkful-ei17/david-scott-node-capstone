@@ -129,6 +129,7 @@ function generateUserOptionsHTML() {
 function getAllSongs() {
   api.searchAllSongs()
     .then(response => {
+      console.log(response);
       STORE.list = response.map(res => res.body);
     })
     .catch(err => console.error(err));
@@ -186,15 +187,18 @@ function navBarEventListeners(){
 $(() => {
   renderPage();
   getUsers();
+  getAllSongs();
   getOneSong('5a5d27ad329925a308e1f46e');
   navBarEventListeners();
 
   $('main').on('click', '#home-submit-search', event => {
+    event.preventDefault();
     STORE.view = 'search';
     renderPage();
   });
 
   $('main').on('click', '#home-submit-add', event => {
+    event.preventDefault();
     STORE.view = 'add';
     renderPage();
   });

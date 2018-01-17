@@ -57,9 +57,9 @@ router.put('/:id', (req, res) => {
   });
 
   User
-    .findByIdAndUpdate(`${req.params.id}`, {$set: fieldsToUpdate}, {new: true})
+    .findByIdAndUpdate(req.params.id, {$set: fieldsToUpdate}, {new: true})
     .then(results => {
-      res.status(204).json(results);
+      res.status(205).json(results);
     })
     .catch(err => console.error(err));
 });
