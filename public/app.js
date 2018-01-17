@@ -7,7 +7,7 @@ function generateHomePageHTML(){
   return `
   <header>   
     <h1>Welcome to Song Cellar!</h1>
-    <h2>Refresh your memory while filing your glass!</h2>
+    <h2>Refresh your memory while filling your glass!</h2>
   </header>
 
   <form>
