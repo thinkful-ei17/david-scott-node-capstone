@@ -15,14 +15,11 @@ router.get('/', (req, res) => {
     .find()
     .then(results => {
       return results.map(result => {
-        return {
-          title: result.title,
-          id: result._id
-        };
+        return result.serialize();
       });
     })
-    .then(titles => {
-      res.json(titles);
+    .then(results => {
+      res.json(results);
     })
     .catch(err => {
       console.error(err);
@@ -49,8 +46,8 @@ router.post('/', (req, res) => {
       artist: req.body.artist,
       notes: req.body.notes
     })
-    .then(user =>
-      res.status(201).json(user))
+    .then(song =>
+      res.status(201).json(song.serialize()))
     .catch(err=>console.error(err));
 });  
 

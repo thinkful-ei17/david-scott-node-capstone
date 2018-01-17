@@ -67,6 +67,17 @@ const api = {
     }).then(normalizeResponseErrors)
       .then(res => res.json());
   },
+  details: function (id) {
+    const url = buildUrl(`/songs/${id}`);
+
+    return fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    }).then(normalizeResponseErrors)
+      .then(res => res.json());
+  },
   create: function (document) {
     const url = buildUrl('/songs/');
 
@@ -103,6 +114,18 @@ const api = {
       }
     }).then(normalizeResponseErrors)
       .then(res => res.text());
+  },
+  addSongToUser: function(document) {
+    const url = buildUrl(`/users/${document.id}`);
+    
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: document ? JSON.stringify(document) : null
+    }).then(normalizeResponseErrors)
+      .then(res => res.json());
   }
 };
-

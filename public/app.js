@@ -47,7 +47,8 @@ function generateAddPageHTML() {
       </div>
       <button id="submit-add">Submit</button>
     </fieldset>
-  </form>`;
+  </form>
+  `;
 }
 
 function renderAddPage() {
@@ -55,13 +56,18 @@ function renderAddPage() {
 }
 
 function generateReadPageHTML() {
+  const song = STORE.currentSong;
   return `
   <div id="read" class="view">
-    <h3>Replace with title</h3>
-    <p>Replace with author</p>
-    <p>Replace with lyrics</p>
-    <p>Replace with notes</p>
-  </div>`;
+    <h3>Title: ${song.title}</h3>
+    <p>Artist: ${song.artist}</p>
+    <p>Lyrics: ${song.lyrics}</p>
+    <p>Notes: ${song.notes}</p>
+    <button id='edit-button'>Edit</button>
+    <button id='delete-button'>Delete</button>
+  </div>
+
+  `;
 }
 
 function renderReadPage() {
@@ -115,6 +121,28 @@ function renderSearchResultsPage() {
   $('main').html(generateSearchResultsHTML());
 }
 
+function generateListPageHTML() {
+  return `
+    <ul class='songs-list'>
+      ${renderList()};
+    </ul>
+  `;
+}
+
+function renderList() {
+  return STORE.list.map(song => {
+    return `
+    <li id="${song.id}">
+      <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
+    </li>
+    `;
+  });
+}
+
+function renderListPage() {
+  $('main').html(generateListPageHTML());
+}
+
 function getUsers() {
   api.searchAllUsers()
     .then(response => {
@@ -133,8 +161,7 @@ function generateUserOptionsHTML() {
 function getAllSongs() {
   api.searchAllSongs()
     .then(response => {
-      console.log(response);
-      STORE.list = response.map(res => res.body);
+      STORE.list = response;
     })
     .catch(err => console.error(err));
 }
@@ -142,7 +169,6 @@ function getAllSongs() {
 function getOneSong(id) {
   api.searchOneSong(id)
     .then(response => {
-      console.log(response);
       STORE.song = response;
     })
     .catch(err => console.error(err));
@@ -159,11 +185,46 @@ function createSong(event) {
   api.create(song)
     .then(response => {
       STORE.insert(response);
+      console.log(STORE.list);
+      STORE.currentSong = response;
+      STORE.view = 'read';
+      renderPage();
     })
     .catch(err => {
       console.error(err);
     });
 }
+
+function deleteSong(event) {
+  const id = STORE.currentSong.id;
+  console.log(STORE.currentSong);
+  console.log(id);
+  api.remove(id)
+    .then(() => {
+      STORE.findByIdAndRemove(id);
+      STORE.currentSong = null;
+      STORE.view = 'list';
+      renderPage();
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+function songDetails(event) {
+  const el = $(event.target);
+  const id = el.closest('li').attr('id');
+  api.details(id)
+    .then(response => {
+      STORE.currentSong = response;
+      STORE.view = 'read';
+      renderPage();
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
 
 function renderPage() {
   switch (STORE.view) {
@@ -181,6 +242,9 @@ function renderPage() {
     break;
   case 'read': 
     renderReadPage();
+    break;
+  case 'list':
+    renderListPage();
     break;
   }
 }
@@ -200,14 +264,19 @@ function navBarEventListeners(){
     STORE.view = 'add';
     renderPage();
   });
+
+  $('.nav-bar').on('click', '#nav-list', () => {
+    STORE.view = 'list';
+    renderPage();
+  });
 }
 
 
 $(() => {
+  console.log(STORE);
   renderPage();
   getUsers();
   getAllSongs();
-  getOneSong('5a5d27ad329925a308e1f46e');
   navBarEventListeners();
 
   $('main').on('click', '#home-submit-search', event => {
@@ -231,9 +300,20 @@ $(() => {
   $('main').on('submit', '#add-form', event => {
     event.preventDefault();
     createSong(event);
-    STORE.view = 'read';
-    renderPage();
+  });
+
+  $('main').on('click', '#edit-button', event => {
+    event.preventDefault();
 
   });
 
+  $('main').on('click', '#delete-button', event => {
+    event.preventDefault();
+    deleteSong(event);
+  });
+
+  $('main').on('click', '.song', event => {
+    event.preventDefault();
+    songDetails(event);
+  });
 });
