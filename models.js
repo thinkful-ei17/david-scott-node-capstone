@@ -18,6 +18,19 @@ const UserSchema = mongoose.Schema({
   songs: [{type: mongoose.Schema.Types.ObjectId, ref: 'Song'}]
 });
 
+UserSchema.virtual('name').get(function () {
+  return `${this.firstName} ${this.lastName}`.trim();
+});
+
+UserSchema.methods.serialize = function () {
+  return {
+    id: this._id,
+    username: this.username,
+    name: this.name,
+    songs: this.songs
+  };
+};
+
 const User = mongoose.model('User', UserSchema);
 const Song = mongoose.model('Song', SongSchema);
 
