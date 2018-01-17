@@ -11,15 +11,6 @@ const SongSchema = mongoose.Schema({
   notes: {type: String, default:''}
 });
 
-SongSchema.methods.serialize = function() {
-  return {
-    id: this.id,
-    title: this.title,
-    artist: this.artist,
-    notes: this.notes
-  };
-};
-
 const UserSchema = mongoose.Schema({
   username: {type: String, required: true, unique: true},
   firstName: {type: String},
@@ -30,6 +21,16 @@ const UserSchema = mongoose.Schema({
 UserSchema.virtual('name').get(function () {
   return `${this.firstName} ${this.lastName}`.trim();
 });
+
+SongSchema.methods.serialize = function() {
+  return {
+    id: this.id,
+    title: this.title,
+    artist: this.artist,
+    notes: this.notes,
+    lyrics: this.lyrics
+  };
+};
 
 UserSchema.methods.serialize = function () {
   return {

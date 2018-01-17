@@ -4,8 +4,8 @@ const bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
-const routerSong = require('./routers/router.song');
-const routerUser = require('./routers/router.user');
+const routerSong = require('./routers/router.songs');
+const routerUser = require('./routers/router.users');
 
 mongoose.Promise = global.Promise;
 
