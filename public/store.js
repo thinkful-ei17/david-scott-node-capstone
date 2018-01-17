@@ -32,8 +32,4 @@ class Store {
     return obj;
   }
 
-  getUsers() {
-
-  }
-
 }
