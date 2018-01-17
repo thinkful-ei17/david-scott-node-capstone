@@ -49,6 +49,11 @@ router.post('/', (req, res) => {
 });   
 
 router.put('/:id', (req, res) => {
+  if (!(req.params.id && req.body.id && req.params.id === req.body.id)) {
+    res.status(400).json({
+      error: 'Request path id and request body id values must match'
+    });
+  }
   
   const fieldsToUpdate = {};
 
@@ -61,9 +66,9 @@ router.put('/:id', (req, res) => {
   });
 
   User
-    .findByIdAndUpdate(`${req.params.id}`, {$set: fieldsToUpdate}, {new: true})
+    .findByIdAndUpdate(req.params.id, {$set: fieldsToUpdate}, {new: true})
     .then(results => {
-      res.status(204).json(results);
+      res.status(205).json(results);
     })
     .catch(err => console.error(err));
 });
