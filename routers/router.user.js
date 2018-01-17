@@ -35,7 +35,6 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-  
   User
     .create({
       username: req.body.username,
@@ -44,16 +43,13 @@ router.post('/', (req, res) => {
       songs: req.body.songs
     })
     .then(user =>
-    res.status(201).json(user))
+      res.status(201).json(user))
     .catch(err=>console.error(err));
 });   
 
 router.put('/:id', (req, res) => {
-  
   const fieldsToUpdate = {};
-
   const updateableFields = ['firstName', 'lastName', 'songs'];
-  
   updateableFields.forEach(field => {
     if (field in req.body) {
       fieldsToUpdate[field] = req.body[field];
@@ -63,7 +59,7 @@ router.put('/:id', (req, res) => {
   User
     .findByIdAndUpdate(`${req.params.id}`, {$set: fieldsToUpdate}, {new: true})
     .then(results => {
-    res.status(204).json(results)
+      res.status(204).json(results);
     })
     .catch(err => console.error(err));
 });

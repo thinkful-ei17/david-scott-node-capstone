@@ -21,7 +21,6 @@ function renderHomePage(){
   $('main').html(generateHomePageHTML());
 }
 
-
 function generateAddPageHTML() {
   return `
   <form id="add-form" class="view">
@@ -47,6 +46,10 @@ function generateAddPageHTML() {
   </form>`;
 }
 
+function renderAddPage() {
+  $('main').html(generateAddPageHTML());
+}
+
 function generateReadPageHTML() {
   return `
   <div id="read" class="view">
@@ -57,17 +60,8 @@ function generateReadPageHTML() {
   </div>`;
 }
 
-function renderAddPage() {
-  $('main').html(generateAddPageHTML());
-}
-
 function renderReadPage() {
   $('main').html(generateReadPageHTML());
-}
-
-function renderSearchPage(){
-  console.log('renderSearchPage ran');
-  $('main').html(generateSearchPageHTML());
 }
 
 function generateSearchPageHTML(){
@@ -87,6 +81,11 @@ function generateSearchPageHTML(){
       </button>
       </form>
     `;
+}
+
+function renderSearchPage(){
+  console.log('renderSearchPage ran');
+  $('main').html(generateSearchPageHTML());
 }
 
 function generateSearchResultsHTML() {
@@ -125,6 +124,23 @@ function generateUserOptionsHTML() {
     return `<option class="user">${user}</option>`;
   });
   return userOptions;
+}
+
+function getAllSongs() {
+  api.searchAllSongs()
+    .then(response => {
+      STORE.list = response.map(res => res.body);
+    })
+    .catch(err => console.error(err));
+}
+
+function getOneSong(id) {
+  api.searchOneSong(id)
+    .then(response => {
+      console.log(response);
+      STORE.song = response;
+    })
+    .catch(err => console.error(err));
 }
 
 
@@ -170,16 +186,15 @@ function navBarEventListeners(){
 $(() => {
   renderPage();
   getUsers();
+  getOneSong('5a5d27ad329925a308e1f46e');
   navBarEventListeners();
 
   $('main').on('click', '#home-submit-search', event => {
     STORE.view = 'search';
-
     renderPage();
   });
 
   $('main').on('click', '#home-submit-add', event => {
-    event.preventDefault();
     STORE.view = 'add';
     renderPage();
   });

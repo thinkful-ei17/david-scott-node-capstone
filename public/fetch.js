@@ -46,7 +46,7 @@ const api = {
       .then(res => res.json());
   },
   searchOneSong: function (id) {
-    const url = buildUrl(`/songs/:${id}`);
+    const url = buildUrl(`/songs/${id}`);
 
     return fetch(url, {
       method: 'GET',
