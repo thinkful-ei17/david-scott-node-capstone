@@ -78,20 +78,58 @@ function generateSearchPageHTML(){
   return `
       <form name='search-form' class='search-form, js-search-form' id='search-form'>
         <h2 for='search-form'>
-        Search the Database!
-      </h2>
-      <lable for='title-input' class='search-lable'>Search by Title</lable>
-      <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
-      <lable for='title-search' class='search-lable'>Search By User</lable>
-      <select name='title-search' class='title-search, js-title-search' id='title-search' form='search-form'>
-      ${generateUserOptionsHTML()}
-      </select>
-      <button class='search-button, js-search-button' id='search-submit'>
-        Search Now!
-      </button>
+          Search the Database!
+        </h2>
+      
+        <lable for='title-input' class='search-lable'>Search by Title</lable>
+        <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
+      
+        <lable for='title-search' class='search-lable'>Search By User</lable>
+        <select name='user-search' class='user-search, js-user-search' id='user-search' form='search-form'>
+            <option></option>
+            ${generateUserOptionsHTML()}
+        </select>
+      
+        <button class='search-button, js-search-button' id='search-submit'>
+          Search Now!
+        </button>
       </form>
     `;
 }
+
+
+
+
+// searchFormSubmit();
+
+
+// function getSongsFromUser(username){
+//   console.log("store.users:", STORE.users);
+//   const user = STORE.users.find(user => user.username = username);
+//   console.log('user:',user);
+//   //  const user = STORE.users.find(user => STORE.users.username = username);
+//   //  console.log(user);
+// }   
+
+function searchSongByTitle(titleToSearch){
+  const titles = STORE.list
+  const song = titles.filter(title => title.title === titleToSearch);
+  console.log('song:', song);
+  STORE.song = song;
+}
+
+function searchSongByUser(userToSearch){
+  const users = STORE.users;
+  console.log('STORE.users:', STORE.users);
+  const userMatch = users.filter(user => user.username === userToSearch);
+  console.log('user:', userMatch[0]);
+  const songs = userMatch[0].songs;
+  STORE.songsFromSearch = songs;
+  console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
+  // renderPage();
+}
+
+
 
 function renderSearchPage(){
   console.log('renderSearchPage ran');
@@ -146,14 +184,15 @@ function renderListPage() {
 function getUsers() {
   api.searchAllUsers()
     .then(response => {
-      STORE.users = response.map(res => res.username);
+      STORE.users = response.map(res => res);
+      console.log('getAllUsers made store.users:',STORE.users);
     })
     .catch(err => console.error(err));
 }
 
 function generateUserOptionsHTML() {
   const userOptions = STORE.users.map(user => {
-    return `<option class="user">${user}</option>`;
+    return `<option class="user">${user.username}</option>`;
   });
   return userOptions;
 }
@@ -161,7 +200,10 @@ function generateUserOptionsHTML() {
 function getAllSongs() {
   api.searchAllSongs()
     .then(response => {
+      console.log('apui.searchAllSongs returned:', response);
+      // STORE.list = response.map(res => res.body);
       STORE.list = response;
+      console.log('store.list set by getAllSongs:', STORE.list);
     })
     .catch(err => console.error(err));
 }
@@ -276,35 +318,49 @@ $(() => {
   console.log(STORE);
   renderPage();
   getUsers();
+  console.log('on page load store.users:',STORE.users);
   getAllSongs();
   navBarEventListeners();
 
   $('main').on('click', '#home-submit-search', event => {
     event.preventDefault();
+    console.log('#home-submit-search was clicked');
     STORE.view = 'search';
     renderPage();
   });
 
   $('main').on('click', '#home-submit-add', event => {
     event.preventDefault();
+    console.log('#home-submit-add was clicked')
     STORE.view = 'add';
     renderPage();
   });
 
   $('main').on('submit', '#search-form', event => {
-    event.preventDefault();
-    STORE.view = 'search-results';
-    renderPage();
-  });
+      event.preventDefault();
+      const titleToSearch = $('.js-title-input').val();
+      const userToSearch = $('.js-user-search').val();
+      if(titleToSearch){
+        searchSongByTitle(titleToSearch);
+        STORE.view = 'read';
+      }
+      if(userToSearch){
+        searchSongByUser(userToSearch);
+        STORE.view = 'search-results';
+      }
+     renderPage();
+    });  
+
 
   $('main').on('submit', '#add-form', event => {
     event.preventDefault();
+    console.log('#add-form was submittted');
     createSong(event);
   });
 
   $('main').on('click', '#edit-button', event => {
     event.preventDefault();
-
+    
   });
 
   $('main').on('click', '#delete-button', event => {

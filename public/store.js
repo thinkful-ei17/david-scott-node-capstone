@@ -7,7 +7,9 @@ class Store {
     this.list = null;
     this.currentSong = null;
     this.users = null;
+    this.songsFromSearch = null;
     this.view = 'home';
+
   }
 
   insert(doc){
