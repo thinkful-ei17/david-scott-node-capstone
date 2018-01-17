@@ -40,8 +40,8 @@ router.put('/:id', (req, res) => {
 
   Song
     .findByIdAndUpdate(req.params.id, {$set: fieldsToUpdate }, { new: true })
-    .then(results => {
-      res.status(205).json(results);
+    .then((result) => {
+      res.status(205).json(result);
     })
     .catch(err => console.error(err));
 
