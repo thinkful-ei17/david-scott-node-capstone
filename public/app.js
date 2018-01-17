@@ -98,8 +98,8 @@ function generateSearchPageHTML(){
 }
 
 function searchSongByTitle(titleToSearch){
-  const titles = STORE.list;
-  const song = titles.filter(title => title.title === titleToSearch);
+  const songs = STORE.list;
+  const song = songs.find(song => song.title === titleToSearch);
   console.log('song:', song);
   STORE.currentSong = song;
 }
@@ -131,14 +131,24 @@ function generateSearchResultsHTML() {
 
     <section class='show-results, js-show-results'>
       <ul class='results-list, js-results-list'>
-        <li class='search-result'><a href=''>Song 1</a></li>
-        <li class='search-result'><a href=''>Song 2</a></li>
-        <li class='search-result'><a href=''>Song 3</a></li>
+      ${makeSearchResultsList()}
       </ul>
     </section>
   `;
 }
 
+function makeSearchResultsList(){
+  const songs = STORE.songsFromSearch.map(song => {
+    const title = song.title;
+    const artist = song.artist;
+  
+    return `
+      <li class='search-result, js-search-result'>
+        <h3> ${title}<h3>
+        <h4> witten by: ${artist}<h4>
+    `
+  })
+}
 function renderSearchResultsPage() {
   console.log('renderSearchResults ran');
   $('main').html(generateSearchResultsHTML());
