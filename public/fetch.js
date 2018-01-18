@@ -91,8 +91,20 @@ const api = {
     }).then(normalizeResponseErrors)
       .then(res => res.json());
   },  
-  update: function (document) {
+  updateSong: function (document) {
     const url = buildUrl(`/songs/${document.id}`);
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: document ? JSON.stringify(document) : null
+    }).then(normalizeResponseErrors)
+      .then(res => res.text());
+  },
+  updateUser: function (document) {
+    const url = buildUrl(`/users/${document.id}`);
     return fetch(url, {
       method: 'PUT',
       headers: {

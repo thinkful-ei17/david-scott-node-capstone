@@ -26,7 +26,7 @@ function generateAddPageHTML() {
   <form id="add-form" class="view">
     <fieldset>
       <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form'>
+      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
       </select>
@@ -65,7 +65,7 @@ function generateReadPageHTML() {
     <p>Lyrics: ${song.lyrics}</p>
     <p>Notes: ${song.notes}</p>
     <button id='edit-button'>Edit</button>
-    <button id='delete-button'>Delete</button>
+    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>
   </div>
 
   `;
@@ -147,6 +147,7 @@ function renderSearchResultsPage() {
 
 function generateListPageHTML() {
   return `
+    <h2>Full List of Songs</h2>
     <ul class='songs-list'>
       ${renderList()};
     </ul>
@@ -220,7 +221,7 @@ function getUsers() {
 
 function generateUserOptionsHTML() {
   const userOptions = STORE.users.map(user => {
-    return `<option class="user">${user.username}</option>`;
+    return `<option id="${user.id}" class="user">${user.username}</option>`;
   });
   return userOptions;
 }
@@ -246,6 +247,11 @@ function getOneSong(id) {
 
 function createSong(event) {
   const el = $(event.target);
+  // const user = el.find('[name=user-choose]').val();
+  // const userr = STORE.findUserByUsername(user);
+  // userr.songs.push()
+  // console.log(userr);
+
   const song = {
     title: el.find('[name=title]').val(),
     lyrics: el.find('[name=lyrics]').val(),
@@ -255,7 +261,6 @@ function createSong(event) {
   api.create(song)
     .then(response => {
       STORE.insert(response);
-      console.log(STORE.list);
       STORE.currentSong = response;
       STORE.view = 'read';
       renderPage();
@@ -267,8 +272,6 @@ function createSong(event) {
 
 function deleteSong(event) {
   const id = STORE.currentSong.id;
-  console.log(STORE.currentSong);
-  console.log(id);
   api.remove(id)
     .then(() => {
       STORE.findByIdAndRemove(id);
@@ -305,7 +308,7 @@ function editSong(event) {
     artist: el.find('[name=artist]').val(),
     notes: el.find('[name=notes]').val() 
   };
-  api.update(updatedSong)
+  api.updateSong(updatedSong)
     .then(() => {
       STORE.findByIdAndUpdate(updatedSong);
       STORE.view = 'read';
@@ -314,6 +317,10 @@ function editSong(event) {
     .catch(err => {
       console.error(err);
     });
+}
+
+function addSongToUser() {
+
 }
 
 function renderPage() {
@@ -407,6 +414,7 @@ $(() => {
     event.preventDefault();
     console.log('#add-form was submittted');
     createSong(event);
+    // addSongToUser();
   });
 
   $('main').on('click', '#edit-button', event => {
