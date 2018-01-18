@@ -93,7 +93,6 @@ const api = {
   },  
   update: function (document) {
     const url = buildUrl(`/songs/${document.id}`);
-    
     return fetch(url, {
       method: 'PUT',
       headers: {
@@ -102,7 +101,7 @@ const api = {
       },
       body: document ? JSON.stringify(document) : null
     }).then(normalizeResponseErrors)
-      .then(res => res.json());
+      .then(res => res.text());
   },
   remove: function (id) {
     const url = buildUrl(`/songs/${id}`);

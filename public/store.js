@@ -13,7 +13,7 @@ class Store {
   }
 
   insert(doc){
-    this.song = doc;
+    this.currentSong = doc;
     this.list.push(doc);
   }
 
@@ -26,8 +26,8 @@ class Store {
   }
 
   findByIdAndUpdate(doc) {
-    this.song = doc;
-    let obj = this.findById(Number(doc.id));
+    this.currentSong = doc;
+    let obj = this.findById((doc.id));
     if (obj) {
       Object.assign(obj, doc);
     }
