@@ -155,12 +155,9 @@ function makeSearchResultsList(){
   //change this back to STORE.songsFromSearch when I figure out that part//
   const resultList = STORE.songsFromSearch.map(song => {
     return `
-      <li class='search-result, js-search-result' id='${song.id}'>
-        <a href='#' class='song'> 
-          <h3>${song.title}</h3>
-        </a>  
-          <h4>written by: ${song.artist}<h4>
-      </li>  
+    <li id="${song.song_id}">
+      <a href="#" class="song">${song.title}</a><span>Written By:${song.artist}</span>
+    </li>
     `;
   });
   return resultList.join(' ');
@@ -257,7 +254,7 @@ function generateUserOptionsHTML() {
 function getAllSongs() {
   api.searchAllSongs()
     .then(response => {
-      console.log('apui.searchAllSongs returned:', response);
+      console.log('api.searchAllSongs returned:', response);
       // STORE.list = response.map(res => res.body);
       STORE.list = response;
       console.log('store.list set by getAllSongs:', STORE.list);
