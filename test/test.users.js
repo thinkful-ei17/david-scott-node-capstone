@@ -123,7 +123,10 @@ describe('Users endpoints tests', function() {
         })
         .catch(err => console.log(err));    
     });
-  }); //ends get endpoint describe block          
+  }); //ends get endpoint describe block  
+  
+  
+
   //         resUser = res.body[0];
   //         console.log('resUser.id:', resUser.id);
   //         return chai.request(app)
@@ -140,34 +143,29 @@ describe('Users endpoints tests', function() {
   
 // describe('POST endpoint', function () {
   
-//   it('should add a new blog post when authenticated', function () {
-//     const newPost = {
-//       username: 'bt',
-//       password: 'baseball',
-//       title: faker.lorem.sentence(),
-//       author: {
-//         firstName: faker.name.firstName(),
-//         lastName: faker.name.lastName(),
-//       },
-//       content: faker.lorem.text()
-//     };
-  
+//   it.only('should add a new User', function () {
+//     const newUser = {
+//       username: "newUser",
+//       firstName: "Brandy",
+//       lastName: "Newman",
+//       songs: [{ _id: songs[0]._id }, { _id: songs[1]._id }]
+//       };
 //     return chai.request(app)
 //       .post('/users')
 //     // .auth('username', 'password')
-//       .send(newPost)
-//       .then(function (res) {
+//       .send(newUser)
+//       .then(res => {
 //         res.should.have.status(201);
 //         res.should.be.json;
 //         res.body.should.be.a('object');
 //         res.body.should.include.keys(
-//           'id', 'title', 'content', 'author', 'created');
-//         res.body.title.should.equal(newPost.title);
+//           'id', 'username', 'name', 'songs');
+//         res.body.username.should.equal(newUser.username);
 //         // cause Mongo should have created id on insertion
 //         res.body.id.should.not.be.null;
-//         res.body.author.should.equal(
-//           `${newPost.author.firstName} ${newPost.author.lastName}`);
-//         res.body.content.should.equal(newPost.content);
+//         res.body.name.should.equal(
+//           `${newUser.author.firstName} ${newUser.author.lastName}`);
+//         res.body.songs.should.equal(newUser.songs);
 //         return BlogPost.findById(res.body.id);
 //       })
 //       .then(function (post) {
