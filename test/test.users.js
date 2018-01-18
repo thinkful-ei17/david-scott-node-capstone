@@ -141,41 +141,71 @@ describe('Users endpoints tests', function() {
   //   });
   // });
   
-// describe('POST endpoint', function () {
+  describe('POST endpoint', function () {
   
-//   it.only('should add a new User', function () {
-//     const newUser = {
-//       username: "newUser",
-//       firstName: "Brandy",
-//       lastName: "Newman",
-//       songs: [{ _id: songs[0]._id }, { _id: songs[1]._id }]
-//       };
-//     return chai.request(app)
-//       .post('/users')
-//     // .auth('username', 'password')
-//       .send(newUser)
-//       .then(res => {
-//         res.should.have.status(201);
-//         res.should.be.json;
-//         res.body.should.be.a('object');
-//         res.body.should.include.keys(
-//           'id', 'username', 'name', 'songs');
-//         res.body.username.should.equal(newUser.username);
-//         // cause Mongo should have created id on insertion
-//         res.body.id.should.not.be.null;
-//         res.body.name.should.equal(
-//           `${newUser.author.firstName} ${newUser.author.lastName}`);
-//         res.body.songs.should.equal(newUser.songs);
-//         return BlogPost.findById(res.body.id);
-//       })
-//       .then(function (post) {
-//         post.title.should.equal(newPost.title);
-//         post.content.should.equal(newPost.content);
-//         post.author.firstName.should.equal(newPost.author.firstName);
-//         post.author.lastName.should.equal(newPost.author.lastName);
-//       });
-//   });
-// });
+    it.only('should add a new User', function () {
+      let songs;
+      return chai.request(app)
+        .get('/songs')
+        .then(res =>{
+          console.log(res.body);
+          songs = res.body;
+          return songs;
+        })
+        .then( songs => {
+          const newUser = {
+            username: 'newUser',
+            firstName: 'Brandy',
+            lastName: 'Newman',
+            songs: [{_id: songs[0].id}, {_id: songs[1].id}]
+          };
+          console.log('newUser:', newUser);
+          return chai.request(app)
+            .post('/users')
+            .send(newUser)
+            .then(res => {
+              console.log('last res is:',res.body);
+              res.should.be.json;
+              res.body.should.be.a('object');
+              res.body.should.include.keys('id', 'username', 'name', 'songs');
+              res.body.username.should.equal(newUser.username);
+              // cause Mongo should have created id on insertion
+              res.body.id.should.not.be.null;
+              res.should.have.status(201);
+              res.body.name.should.equal(`${newUser.firstName} ${newUser.lastName}`);
+              // res.body.songs.should.equal(newUser.songs);
+               
+              // return BlogPost.findById(res.body.id);
+            });
+        });    
+    });  
+
+    //   return chai.request(app)
+    //     .post('/users')
+    //   // .auth('username', 'password')
+    //     .send(newUser)
+    //     .then(res => {
+    //       res.should.have.status(201);
+    //       res.should.be.json;
+    //       res.body.should.be.a('object');
+    //       res.body.should.include.keys(
+    //         'id', 'username', 'name', 'songs');
+    //       res.body.username.should.equal(newUser.username);
+    //       // cause Mongo should have created id on insertion
+    //       res.body.id.should.not.be.null;
+    //       res.body.name.should.equal(
+    //         `${newUser.author.firstName} ${newUser.author.lastName}`);
+    //       res.body.songs.should.equal(newUser.songs);
+    //       return BlogPost.findById(res.body.id);
+    //     })
+    //     .then(function (post) {
+    //       post.title.should.equal(newPost.title);
+    //       post.content.should.equal(newPost.content);
+    //       post.author.firstName.should.equal(newPost.author.firstName);
+    //       post.author.lastName.should.equal(newPost.author.lastName);
+    //     });
+    // });
+  });
   
 // describe('PUT endpoint', function () {
   

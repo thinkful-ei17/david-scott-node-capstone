@@ -70,7 +70,7 @@ router.post('/', (req, res) => {
       songs: req.body.songs
     })
     .then(user =>
-      res.status(201).json(user))
+      res.status(201).json(user.serialize()))
     .catch(err=>console.error(err));
 });   
 
