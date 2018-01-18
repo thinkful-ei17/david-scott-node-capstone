@@ -50,7 +50,7 @@ function seedData() {
 describe('Users endpoints tests', function() {
 
   before(function () {
-    console.log('runServer')
+    console.log('runServer');
     return runServer(TEST_DATABASE_URL);
   });
 
