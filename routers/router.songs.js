@@ -39,6 +39,16 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  const requiredFields = ['title', 'lyrics'];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+  // what if other fields are in body?
   Song
     .create({
       title: req.body.title,

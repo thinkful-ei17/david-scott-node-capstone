@@ -26,25 +26,25 @@ function generateAddPageHTML() {
   <form id="add-form" class="view">
     <fieldset>
       <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form' required>
+      <select name='user-choose' class='user-choose, js-user-choose, add-input user-input' id='user-choose' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
       </select>
       <div>
         <label for="title">Title</label>
-        <input type="text" name="title" required>
+        <input class='add-input title-input' type="text" name="title" required>
       </div>
       <div>
         <label for="artist">Artist</label>
-        <input type="text" name="artist">
+        <input class='add-input artist-input' type="text" name="artist">
       </div> 
       <div>
         <label for="lyrics">Lyrics</label>
-        <textarea type="text" rows="10" cols="50" name="lyrics" required></textarea>
+        <textarea class='add-input lyrics-input' type="text" rows="10" cols="50" name="lyrics" required></textarea>
       </div>
       <div>
         <label for="notes">Notes</label>
-        <input type="text" name="notes">
+        <input class='add-input notes-input' type="text" name="notes">
       </div>
       <button id="submit-add">Submit</button>
     </fieldset>
@@ -62,8 +62,8 @@ function generateReadPageHTML() {
   <div id="read" class="view">
     <h3>Title: ${song.title}</h3>
     <p>Artist: ${song.artist}</p>
-    <p>Lyrics: ${song.lyrics}</p>
-    <p>Notes: ${song.notes}</p>
+    <p class='read-lyrics'>Lyrics:</br>${song.lyrics}</p>
+    <p>Notes:</br>${song.notes}</p>
     <button id='edit-button'>Edit</button>
     <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>
   </div>
@@ -170,7 +170,7 @@ function renderSearchResultsPage() {
 
 function generateListPageHTML() {
   return `
-    <h2>Full List of Songs</h2>
+    <h2>List of All Songs</h2>
     <ul class='songs-list'>
       ${renderList().join('')}
     </ul>
@@ -196,25 +196,25 @@ function generateEditPageHTML() {
   <form id="edit-form" class="view">
     <fieldset>
       <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form' required>
+      <select name='user-choose' class='user-choose, js-user-choose user-input' id='user-choose' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
       </select>
       <div>
         <label for="title">Title</label>
-        <input type="text" name="title" required>
+        <input class='title-input' type="text" name="title" required>
       </div>
       <div>
         <label for="artist">Artist</label>
-        <input type="text" name="artist">
+        <input class='artist-input' type="text" name="artist">
       </div> 
       <div>
         <label for="lyrics">Lyrics</label>
-        <textarea type="text" rows="10" cols="50" name="lyrics" required></textarea>
+        <textarea class='lyrics-input' type="text" rows="10" cols="50" name="lyrics" required></textarea>
       </div>
       <div>
         <label for="notes">Notes</label>
-        <input type="text" name="notes">
+        <input class='notes-input' type="text" name="notes">
       </div>
       <button id="submit-add">Submit</button>
     </fieldset>
@@ -272,21 +272,32 @@ function getOneSong(id) {
 
 function createSong(event) {
   const el = $(event.target);
-  // const user = el.find('[name=user-choose]').val();
-  // const userr = STORE.findUserByUsername(user);
-  // userr.songs.push()
-  // console.log(userr);
-
+  const userName = el.find('[name=user-choose]').val();
+  const user = STORE.findUserByUsername(userName);
+  console.log(user);
   const song = {
     title: el.find('[name=title]').val(),
     lyrics: el.find('[name=lyrics]').val(),
     artist: el.find('[name=artist]').val(),
     notes: el.find('[name=notes]').val()
   };
+
   api.create(song)
     .then(response => {
-      STORE.insert(response);
+      STORE.insertSong(response);
       STORE.currentSong = response;
+      const formatResponse = {
+        song_id: response.id,
+        title: response.title,
+        artist: response.artist
+      };
+      user.songs.push(formatResponse);
+      STORE.findByIdAndUpdateUser(user);
+      return STORE.findByIdUser(user.id);
+    })
+    .then(userr => {
+      console.log(userr);
+      api.updateUser(userr);
       STORE.view = 'read';
       renderPage();
     })
@@ -312,16 +323,21 @@ function deleteSong(event) {
 function songDetails(event) {
   const el = $(event.target);
   const id = el.closest('li').attr('id');
-  console.log('id in song detail is:', id);
-  api.details(id)
-    .then(response => {
-      STORE.currentSong = response;
-      STORE.view = 'read';
-      renderPage();
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  console.log(STORE.currentSong);
+  STORE.currentSong = STORE.findById(id);
+  console.log(STORE.currentSong);
+  STORE.view = 'read';
+  renderPage();
+  // console.log(id);
+  // api.details(id)
+  //   .then(response => {
+  //     STORE.currentSong = response;
+  //     STORE.view = 'read';
+  //     renderPage();
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //   });
 }
 
 function editSong(event) {
@@ -345,9 +361,7 @@ function editSong(event) {
     });
 }
 
-function addSongToUser() {
 
-}
 
 function renderPage() {
   switch (STORE.view) {
@@ -399,10 +413,8 @@ function navBarEventListeners(){
 
 
 $(() => {
-  console.log(STORE);
   renderPage();
   getUsers();
-  console.log('on page load store.users:',STORE.users);
   getAllSongs();
   navBarEventListeners();
 
@@ -432,7 +444,6 @@ $(() => {
     event.preventDefault();
     console.log('#add-form was submittted');
     createSong(event);
-    // addSongToUser();
   });
 
   $('main').on('click', '#edit-button', event => {
