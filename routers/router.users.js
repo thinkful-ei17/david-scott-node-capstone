@@ -6,7 +6,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const { User, Song} = require('../models');
+const { User, Song } = require('../models');
 
 
 router.get('/', (req, res) => {
@@ -36,6 +36,32 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+
+  // I want to check if all user.songs is in our songs db
+
+  // const eyeDee = req.body.songs[0]._id;
+  // console.log('id', typeof(eyeDee));
+  // const sss = Song.findById(eyeDee);
+  // console.log(Song);
+  // for (let i = 0; i < req.body.songs.length; i++) {
+  //   // console.log(Song.findById(req.body.songs[i]._id));
+  //   if (!(Song.findById(req.body.songs[i]._id) in Song)) {
+  //     return res.status(400).json({
+  //       error: 'Song not in songs db'
+  //     });
+  //   }
+  // }
+
+  const requiredFields = ['username'];
+  for (let i = 0; i < requiredFields.length; i++) {
+    const field = requiredFields[i];
+    if (!(field in req.body)) {
+      const message = `Missing \`${field}\` in request body`;
+      console.error(message);
+      return res.status(400).send(message);
+    }
+  }
+
   User
     .create({
       username: req.body.username,
