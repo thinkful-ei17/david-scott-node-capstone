@@ -132,76 +132,72 @@ describe('Songs endpoints tests', function() {
     });
   });
 
-  // describe('PUT endpoint', function () {
-  //   it('should update songs', function () {
-  //     const updateData = {
-  //       id: 
-  //       title: 'cats cats cats',
-  //       content: 'dogs dogs dogs',
-  //       author: {
-  //         firstName: 'foo',
-  //         lastName: 'bar'
-  //       }
-  //     };
+  describe('PUT endpoint', function () {
+    it('should update songs', function () {
+      const updateData = {
+        title: 'updated title',
+        lyrics: 'updated lyrics',
+        artist: 'updated artist',
+        notes: 'updated notes'
+      };
   
-  //     return User
-  //       .findOne()
-  //       .then(post => {
-  //         updateData.id = post.id;
+      return Song
+        .findOne()
+        .then(song => {
+          updateData.id = song.id;
   
-  //         return chai.request(app)
-  //           .put(`/users/${post.id}`)
-  //           .send(updateData);
-  //       })
-  //       .then(res => {
-  //         res.should.have.status(204);
-  //         return BlogPost.findById(updateData.id);
-  //       })
-  //       .then(post => {
-  //         post.title.should.equal(updateData.title);
-  //         post.content.should.equal(updateData.content);
-  //         post.author.firstName.should.equal(updateData.author.firstName);
-  //         post.author.lastName.should.equal(updateData.author.lastName);
-  //       });
-  //   });
-  // });
+          return chai.request(app)
+            .put(`/songs/${song.id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          res.should.have.status(205);
+          return Song.findById(updateData.id);
+        })
+        .then(song => {
+          song.title.should.equal(updateData.title);
+          song.lyrics.should.equal(updateData.lyrics);
+          song.artist.should.equal(updateData.artist);
+          song.notes.should.equal(updateData.notes);
+        });
+    });
+  });
+
+  describe('DELETE endpoint', function () {
+  
+    it('should delete a user by id when authenticated', function () {
+  
+      let song;
+  
+      return Song
+        .findOne()
+        .then(_song => {
+          song = _song;
+          return chai.request(app)
+            .delete(`/songs/${song.id}`);
+        })
+        .then(res => {
+        // console.log('1----------------');
+        // console.log(JSON.stringify(res, null, 4));
+        // console.log('2----------------');
+  
+          res.should.have.status(204);
+          return Song.findById(song.id);
+        })
+        .then(_song => {
+        // when a variable's value is null, chaining `should`
+        // doesn't work. so `_post.should.be.null` would raise
+        // an error. `should.be.null(_post)` is how we can
+        // make assertions about a null value.
+          should.not.exist(_song);
+        });
+    // .catch( res => {
+    //     console.log('1----------------');
+    //     console.log(JSON.stringify(res.response.text, null, 4));
+    //     console.log('2----------------');
+    //     // i want it to fail; so i put 200 instead of 500
+    //     res.should.have.status(200);
+    // });
+    });
+  });
 });
-// describe('DELETE endpoint', function () {
-  
-//   it('should delete a post by id when authenticated', function () {
-  
-//     let post;
-  
-//     return BlogPost
-//       .findOne()
-//       .then(_post => {
-//         post = _post;
-//         return chai.request(app)
-//           .delete(`/posts/${post.id}`)
-//           .send({ username: 'bt', password: 'baseball'});
-//       })
-//       .then(res => {
-//         // console.log('1----------------');
-//         // console.log(JSON.stringify(res, null, 4));
-//         // console.log('2----------------');
-  
-//         res.should.have.status(204);
-//         return BlogPost.findById(post.id);
-//       })
-//       .then(_post => {
-//         // when a variable's value is null, chaining `should`
-//         // doesn't work. so `_post.should.be.null` would raise
-//         // an error. `should.be.null(_post)` is how we can
-//         // make assertions about a null value.
-//         should.not.exist(_post);
-//       });
-//     // .catch( res => {
-//     //     console.log('1----------------');
-//     //     console.log(JSON.stringify(res.response.text, null, 4));
-//     //     console.log('2----------------');
-//     //     // i want it to fail; so i put 200 instead of 500
-//     //     res.should.have.status(200);
-//     // });
-//   });
-// });
-  
