@@ -270,25 +270,57 @@ function getOneSong(id) {
     .catch(err => console.error(err));
 }
 
+// function addSongToUser() {
+//   const el = $(event.target);
+//   const userName = el.find('[name=user-choose]').val();
+//   const user = STORE.findUserByUsername(userName);
+//   // userr.songs.push()
+//   console.log(user);
+
+//   api.searchOneSong(STORE.currentSong.id)
+//     .then(song => {
+//       console.log('got song', song);
+//       user.songs.push(song);
+//       console.log('new user data', user);
+
+//     })
+//     .catch(err => {
+//       console.error(err);
+//     });
+// }
+
 function createSong(event) {
   const el = $(event.target);
-  // const user = el.find('[name=user-choose]').val();
-  // const userr = STORE.findUserByUsername(user);
-  // userr.songs.push()
-  // console.log(userr);
-
+  const userName = el.find('[name=user-choose]').val();
+  const user = STORE.findUserByUsername(userName);
+  console.log(user);
   const song = {
     title: el.find('[name=title]').val(),
     lyrics: el.find('[name=lyrics]').val(),
     artist: el.find('[name=artist]').val(),
     notes: el.find('[name=notes]').val()
   };
+
   api.create(song)
     .then(response => {
-      STORE.insert(response);
+      STORE.insertSong(response);
       STORE.currentSong = response;
-      STORE.view = 'read';
-      renderPage();
+      return user;
+    })
+    .then(user => {
+      STORE.findByIdAndUpdateUser(user);
+      console.log(STORE.users);
+      api.searchOneSong(id)
+        .then(songg => {
+          STORE.users.user.songs.push(songg);
+          api.updateUser(user)
+            .then(response => {
+              console.log(response);
+              STORE.findByIdAndUpdateUser(user.id);
+              STORE.view = 'read';
+              renderPage();
+            });
+        });
     })
     .catch(err => {
       console.error(err);
@@ -350,9 +382,7 @@ function editSong(event) {
     });
 }
 
-function addSongToUser() {
 
-}
 
 function renderPage() {
   switch (STORE.view) {
@@ -404,10 +434,8 @@ function navBarEventListeners(){
 
 
 $(() => {
-  console.log(STORE);
   renderPage();
   getUsers();
-  console.log('on page load store.users:',STORE.users);
   getAllSongs();
   navBarEventListeners();
 
