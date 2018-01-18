@@ -119,16 +119,15 @@ function searchSongByUser(userToSearch){
 
 function searchForSongs(title, user){
 
-    if(title){
-      searchSongByTitle(title);
-      STORE.view = 'read';
-    }
-    if(user){
-      searchSongByUser(user);
-      STORE.view = 'search-results';
-    }
+  if(title){
+    searchSongByTitle(title);
+    STORE.view = 'read';
   }
-    
+  if(user){
+    searchSongByUser(user);
+    STORE.view = 'search-results';
+  }
+}
 
 
 function renderSearchPage(){
@@ -160,10 +159,10 @@ function makeSearchResultsList(){
         <a href='#' class='song'> 
           <h3>${song.title}</h3>
         </a>  
-          <h4>witten by: ${song.artist}<h4>
+          <h4>written by: ${song.artist}<h4>
       </li>  
     `;
-    });
+  });
   return resultList.join(' ');
 }
 
@@ -188,7 +187,7 @@ function renderList() {
       <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
     </li>
     `;
-  }).join(' ');
+  });
 }
 
 function renderListPage() {
@@ -316,6 +315,7 @@ function deleteSong(event) {
 function songDetails(event) {
   const el = $(event.target);
   const id = el.closest('li').attr('id');
+  console.log(id);
   api.details(id)
     .then(response => {
       STORE.currentSong = response;
@@ -430,7 +430,6 @@ $(() => {
     searchForSongs(title, user);
     renderPage();
   });  
-
 
   $('main').on('submit', '#add-form', event => {
     event.preventDefault();
