@@ -97,9 +97,10 @@ function generateSearchPageHTML(){
     `;
 }
 
-function searchSongByTitle(titleToSearch){
-  const titles = STORE.list;
-  const song = titles.filter(title => title.title === titleToSearch);
+
+function searchSongByTitle(title){
+  const songs = STORE.list;
+  const song = songs.find(song => song.title === title);
   console.log('song:', song);
   STORE.currentSong = song;
 }
@@ -114,6 +115,19 @@ function searchSongByUser(userToSearch){
   console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
   // renderPage();
 }
+
+function searchForSongs(title, user){
+
+    if(title){
+      searchSongByTitle(title);
+      STORE.view = 'read';
+    }
+    if(user){
+      searchSongByUser(user);
+      STORE.view = 'search-results';
+    }
+  }
+    
 
 
 function renderSearchPage(){
@@ -131,12 +145,25 @@ function generateSearchResultsHTML() {
 
     <section class='show-results, js-show-results'>
       <ul class='results-list, js-results-list'>
-        <li class='search-result'><a href=''>Song 1</a></li>
-        <li class='search-result'><a href=''>Song 2</a></li>
-        <li class='search-result'><a href=''>Song 3</a></li>
+      ${makeSearchResultsList()}
       </ul>
     </section>
   `;
+}
+
+function makeSearchResultsList(){
+  //change this back to STORE.songsFromSearch when I figure out that part//
+  const resultList = STORE.songsFromSearch.map(song => {
+    return `
+      <li class='search-result, js-search-result' id='${song.id}'>
+        <a href='#' class='song'> 
+          <h3>${song.title}</h3>
+        </a>  
+          <h4>witten by: ${song.artist}<h4>
+      </li>  
+    `;
+    });
+  return resultList.join(' ');
 }
 
 function renderSearchResultsPage() {
@@ -159,7 +186,7 @@ function renderList() {
       <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
     </li>
     `;
-  });
+  }).join(' ');
 }
 
 function renderListPage() {
@@ -169,6 +196,8 @@ function renderListPage() {
 function getUsers() {
   api.searchAllUsers()
     .then(response => {
+      //this response isn't returning songs
+      console.log('api.searchAllUsers returned:', response);
       STORE.users = response.map(res => res);
       console.log('getAllUsers made store.users:',STORE.users);
     })
@@ -322,16 +351,9 @@ $(() => {
 
   $('main').on('submit', '#search-form', event => {
     event.preventDefault();
-    const titleToSearch = $('.js-title-input').val();
-    const userToSearch = $('.js-user-search').val();
-    if(titleToSearch){
-      searchSongByTitle(titleToSearch);
-      STORE.view = 'read';
-    }
-    if(userToSearch){
-      searchSongByUser(userToSearch);
-      STORE.view = 'search-results';
-    }
+    const title = $('.js-title-input').val();
+    const user = $('.js-user-search').val();
+    searchForSongs(title, user);
     renderPage();
   });  
 
