@@ -149,7 +149,7 @@ function generateListPageHTML() {
   return `
     <h2>Full List of Songs</h2>
     <ul class='songs-list'>
-      ${renderList()};
+      ${renderList().join('')}
     </ul>
   `;
 }
