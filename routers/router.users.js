@@ -6,7 +6,7 @@ const router = express.Router();
 
 mongoose.Promise = global.Promise;
 
-const { User } = require('../models');
+const { User, Song} = require('../models');
 
 
 router.get('/', (req, res) => {
@@ -14,6 +14,7 @@ router.get('/', (req, res) => {
     .find()
     .populate('songs')
     .then(users => {
+      console.log('are there songs from the users here?', users);
       res.json(users.map(user => user.serialize()));
     })
     .catch(err => {

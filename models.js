@@ -9,6 +9,7 @@ const SongSchema = mongoose.Schema({
   lyrics: {type: String, require: true},
   artist: {type: String, default:''},
   notes: {type: String, default:''}
+  // singers: [{type: mongoose.Schema.Types.ObjectId, ref: 'User'}]
 });
 
 const UserSchema = mongoose.Schema({

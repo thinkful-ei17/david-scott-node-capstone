@@ -16,8 +16,7 @@ ul {
 }
 
 li {
-  display: inline-block;
-  margin-right: 1px;
+  margin-top: 1em;
 }
 
 form {
