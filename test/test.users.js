@@ -50,7 +50,7 @@ function seedData() {
 describe('Users endpoints tests', function() {
 
   before(function () {
-    console.log('runServer')
+    console.log('runServer');
     return runServer(TEST_DATABASE_URL);
   });
 
@@ -88,31 +88,34 @@ describe('Users endpoints tests', function() {
           response.body.should.have.length(count);
         });
     });
-  }); 
-//     it('should return users with right fields', function () {
-//       let resUser;
-//       return chai.request(app)
-//         .get('/users')
-//         .then(res => {
-//           res.should.have.status(200);
-//           res.should.be.json;
-//           res.body.should.be.a('array');
-//           res.body.should.have.length.of.at.least(1);
-//           res.body.forEach(user => {
-//             user.should.be.a('object');
-//             user.should.include.keys('username', 'firstName', 'lastName', 'songs');
-//           });
-//           resUser = res.body[0];
-//           return User.findById(resUser.id);
-//         })
-//         .then(user => {
-//           resUser.username.should.equal(user.username);
-//           resUser.firstName.should.equal(user.firstName);
-//           resUser.lastName.should.equal(user.lastName);
-//           resUser.songs.should.equal(user.songs);
-//         });
-//     });
-//   });
+
+    it('should return users with correct fields', function () {
+      let resUser;
+      return chai.request(app)
+        .get('/users')
+        .then(res => {
+          console.log('correct fields initial response:',  res);
+          res.should.be.status(200);
+          res.body.forEach(user => {
+            user.should.be.a('object');
+            user.should.include.keys('username', 'name', 'songs');
+          });
+        });
+    });
+  });           
+  //         resUser = res.body[0];
+  //         console.log('resUser.id:', resUser.id);
+  //         return chai.request(app)
+  //           .get(`/users/${res.User.id}`)
+  //       })
+  //       .then(user => {
+  //         console.log('user from findBy id:', user.body);
+  //         resUser.username.should.equal(user.body.username);
+  //         resUser.name.should.equal(`${user.body.firstName} ${user.body.lastName}`);
+  //         resUser.songs.should.equal(user.body.songs);
+  //       });
+  //   });
+  // });
   
 // describe('POST endpoint', function () {
   
