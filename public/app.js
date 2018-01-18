@@ -272,21 +272,32 @@ function getOneSong(id) {
 
 function createSong(event) {
   const el = $(event.target);
-  // const user = el.find('[name=user-choose]').val();
-  // const userr = STORE.findUserByUsername(user);
-  // userr.songs.push()
-  // console.log(userr);
-
+  const userName = el.find('[name=user-choose]').val();
+  const user = STORE.findUserByUsername(userName);
+  console.log(user);
   const song = {
     title: el.find('[name=title]').val(),
     lyrics: el.find('[name=lyrics]').val(),
     artist: el.find('[name=artist]').val(),
     notes: el.find('[name=notes]').val()
   };
+
   api.create(song)
     .then(response => {
-      STORE.insert(response);
+      STORE.insertSong(response);
       STORE.currentSong = response;
+      const formatResponse = {
+        song_id: response.id,
+        title: response.title,
+        artist: response.artist
+      };
+      user.songs.push(formatResponse);
+      STORE.findByIdAndUpdateUser(user);
+      return STORE.findByIdUser(user.id);
+    })
+    .then(userr => {
+      console.log(userr);
+      api.updateUser(userr);
       STORE.view = 'read';
       renderPage();
     })
@@ -350,9 +361,7 @@ function editSong(event) {
     });
 }
 
-function addSongToUser() {
 
-}
 
 function renderPage() {
   switch (STORE.view) {
@@ -404,10 +413,8 @@ function navBarEventListeners(){
 
 
 $(() => {
-  console.log(STORE);
   renderPage();
   getUsers();
-  console.log('on page load store.users:',STORE.users);
   getAllSongs();
   navBarEventListeners();
 
@@ -437,7 +444,6 @@ $(() => {
     event.preventDefault();
     console.log('#add-form was submittted');
     createSong(event);
-    // addSongToUser();
   });
 
   $('main').on('click', '#edit-button', event => {
