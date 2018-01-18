@@ -315,16 +315,21 @@ function deleteSong(event) {
 function songDetails(event) {
   const el = $(event.target);
   const id = el.closest('li').attr('id');
-  console.log(id);
-  api.details(id)
-    .then(response => {
-      STORE.currentSong = response;
-      STORE.view = 'read';
-      renderPage();
-    })
-    .catch(err => {
-      console.error(err);
-    });
+  console.log(STORE.currentSong);
+  STORE.currentSong = STORE.findById(id);
+  console.log(STORE.currentSong);
+  STORE.view = 'read';
+  renderPage();
+  // console.log(id);
+  // api.details(id)
+  //   .then(response => {
+  //     STORE.currentSong = response;
+  //     STORE.view = 'read';
+  //     renderPage();
+  //   })
+  //   .catch(err => {
+  //     console.error(err);
+  //   });
 }
 
 function editSong(event) {
