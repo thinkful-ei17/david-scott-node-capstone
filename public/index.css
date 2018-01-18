@@ -1,6 +1,7 @@
 body {
   box-sizing: border-box;
   padding-top: 4em;
+  text-align: center;
 }
 
 header {
@@ -12,7 +13,7 @@ ul {
   list-style-type: none;
   margin: 0;
   padding: 0;
-  position: absolute;
+  /* position: absolute; */
 }
 
 li {
@@ -25,15 +26,43 @@ form {
 }
 
 main {
-  position: absolute;
+  /* position: absolute; */
+  /* text-align: center; */
   top: 8em;
 }
+
 nav {
   margin: 0;
 }
+
 a {
   text-decoration: none;
 }
+
+fieldset {
+  padding: 1em;
+  width: 30%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: left;
+}
+
 .search-result {
   display: block;
+}
+
+.user-input, .title-input {
+  position: relative;
+  left: 10px;
+}
+
+.artist-input, .notes-input {
+  position: relative;
+  left: 3px;
+}
+
+.read-lyrics {
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
 }

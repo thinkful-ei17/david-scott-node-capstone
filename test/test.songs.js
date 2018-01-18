@@ -7,7 +7,7 @@ const faker = require('faker');
 
 const should = chai.should();
 
-const { Song, User } = require('../models');
+const { Song } = require('../models');
 const { closeServer, runServer, app } = require('../server');
 const { TEST_DATABASE_URL } = require('../config');
 
@@ -23,7 +23,7 @@ function tearDownDb() {
 }
 
 function seedSongData() {
-  console.info('seeding blog post data');
+  console.info('seeding song data');
   const seedData = [];
   for (let i = 1; i <= 5; i++) {
     seedData.push({
@@ -101,7 +101,6 @@ describe('Songs endpoints tests', function() {
 
 
   describe('POST endpoint', function () {
-  
     it('should add a new song', function () {
       const newSong = {
         title: faker.name.title(),
@@ -164,9 +163,7 @@ describe('Songs endpoints tests', function() {
   });
 
   describe('DELETE endpoint', function () {
-  
-    it('should delete a user by id when authenticated', function () {
-  
+    it('should delete a song', function () {
       let song;
   
       return Song
@@ -177,18 +174,10 @@ describe('Songs endpoints tests', function() {
             .delete(`/songs/${song.id}`);
         })
         .then(res => {
-        // console.log('1----------------');
-        // console.log(JSON.stringify(res, null, 4));
-        // console.log('2----------------');
-  
           res.should.have.status(204);
           return Song.findById(song.id);
         })
         .then(_song => {
-        // when a variable's value is null, chaining `should`
-        // doesn't work. so `_post.should.be.null` would raise
-        // an error. `should.be.null(_post)` is how we can
-        // make assertions about a null value.
           should.not.exist(_song);
         });
     // .catch( res => {
