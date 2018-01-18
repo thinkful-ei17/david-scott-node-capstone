@@ -26,7 +26,8 @@ function generateAddPageHTML() {
   <form id="add-form" class="view">
     <fieldset>
       <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form'>
+      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form' required>
+      <option></option>
       ${generateUserOptionsHTML()}
       </select>
       <div>
@@ -64,7 +65,7 @@ function generateReadPageHTML() {
     <p>Lyrics: ${song.lyrics}</p>
     <p>Notes: ${song.notes}</p>
     <button id='edit-button'>Edit</button>
-    <button id='delete-button'>Delete</button>
+    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>
   </div>
 
   `;
@@ -173,8 +174,9 @@ function renderSearchResultsPage() {
 
 function generateListPageHTML() {
   return `
+    <h2>Full List of Songs</h2>
     <ul class='songs-list'>
-      ${renderList()};
+      ${renderList().join('')}
     </ul>
   `;
 }
@@ -193,6 +195,48 @@ function renderListPage() {
   $('main').html(generateListPageHTML());
 }
 
+function generateEditPageHTML() {
+  return `
+  <form id="edit-form" class="view">
+    <fieldset>
+      <span>User</span>
+      <select name='user-choose' class='user-choose, js-user-choose' id='user-choose' form='add-form' required>
+      <option></option>
+      ${generateUserOptionsHTML()}
+      </select>
+      <div>
+        <label for="title">Title</label>
+        <input type="text" name="title" required>
+      </div>
+      <div>
+        <label for="artist">Artist</label>
+        <input type="text" name="artist">
+      </div> 
+      <div>
+        <label for="lyrics">Lyrics</label>
+        <textarea type="text" rows="10" cols="50" name="lyrics" required></textarea>
+      </div>
+      <div>
+        <label for="notes">Notes</label>
+        <input type="text" name="notes">
+      </div>
+      <button id="submit-add">Submit</button>
+    </fieldset>
+  </form>
+  `;
+}
+
+function renderEditPage() {
+  const el = $('main');
+  $('main').html(generateEditPageHTML());
+  const song = STORE.currentSong;
+  console.log(song);
+  el.find('[name=title]').val(song.title);
+  el.find('[name=artist]').val(song.artist);
+  el.find('[name=lyrics]').val(song.lyrics);
+  el.find('[name=notes]').val(song.notes);
+}
+
 function getUsers() {
   api.searchAllUsers()
     .then(response => {
@@ -206,7 +250,7 @@ function getUsers() {
 
 function generateUserOptionsHTML() {
   const userOptions = STORE.users.map(user => {
-    return `<option class="user">${user.username}</option>`;
+    return `<option id="${user.id}" class="user">${user.username}</option>`;
   });
   return userOptions;
 }
@@ -232,6 +276,11 @@ function getOneSong(id) {
 
 function createSong(event) {
   const el = $(event.target);
+  // const user = el.find('[name=user-choose]').val();
+  // const userr = STORE.findUserByUsername(user);
+  // userr.songs.push()
+  // console.log(userr);
+
   const song = {
     title: el.find('[name=title]').val(),
     lyrics: el.find('[name=lyrics]').val(),
@@ -241,7 +290,6 @@ function createSong(event) {
   api.create(song)
     .then(response => {
       STORE.insert(response);
-      console.log(STORE.list);
       STORE.currentSong = response;
       STORE.view = 'read';
       renderPage();
@@ -253,8 +301,6 @@ function createSong(event) {
 
 function deleteSong(event) {
   const id = STORE.currentSong.id;
-  console.log(STORE.currentSong);
-  console.log(id);
   api.remove(id)
     .then(() => {
       STORE.findByIdAndRemove(id);
@@ -281,6 +327,31 @@ function songDetails(event) {
     });
 }
 
+function editSong(event) {
+  const el = $(event.target);
+  const id = STORE.currentSong.id;
+  const updatedSong = {
+    id: id,
+    title: el.find('[name=title]').val(),
+    lyrics: el.find('[name=lyrics]').val(),
+    artist: el.find('[name=artist]').val(),
+    notes: el.find('[name=notes]').val() 
+  };
+  api.updateSong(updatedSong)
+    .then(() => {
+      STORE.findByIdAndUpdate(updatedSong);
+      STORE.view = 'read';
+      renderPage();
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+function addSongToUser() {
+
+}
+
 function renderPage() {
   switch (STORE.view) {
   case 'home': 
@@ -300,6 +371,9 @@ function renderPage() {
     break;
   case 'list':
     renderListPage();
+    break;
+  case 'edit':
+    renderEditPage();
     break;
   }
 }
@@ -362,11 +436,18 @@ $(() => {
     event.preventDefault();
     console.log('#add-form was submittted');
     createSong(event);
+    // addSongToUser();
   });
 
   $('main').on('click', '#edit-button', event => {
     event.preventDefault();
-    
+    STORE.view = 'edit';
+    renderPage();
+  });
+
+  $('main').on('submit', '#edit-form', event => {
+    event.preventDefault();
+    editSong(event);
   });
 
   $('main').on('click', '#delete-button', event => {
