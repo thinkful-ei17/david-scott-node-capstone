@@ -1,97 +1,94 @@
-// 'use strict';
+'use strict';
 
-// const chai = require('chai');
-// const chaiHttp = require('chai-http');
-// const mongoose = require('mongoose');
-// const faker = require('faker');
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const mongoose = require('mongoose');
+const faker = require('faker');
 
-// const should = chai.should();
+const should = chai.should();
 
-// const { Song, User } = require('../models');
-// const { closeServer, runServer, app } = require('../server');
-// const { TEST_DATABASE_URL } = require('../config');
+const { Song, User } = require('../models');
+const { closeServer, runServer, app } = require('../server');
+const { TEST_DATABASE_URL } = require('../config');
 
-// chai.use(chaiHttp);
+chai.use(chaiHttp);
 
-// function tearDownDb() {
-//   return new Promise((resolve, reject) => {
-//     console.warn('Deleting database');
-//     mongoose.connection.dropDatabase()
-//       .then(result => resolve(result))
-//       .catch(err => reject(err));
-//   });
-// }
+function tearDownDb() {
+  return new Promise((resolve, reject) => {
+    console.warn('Deleting database');
+    mongoose.connection.dropDatabase()
+      .then(result => resolve(result))
+      .catch(err => reject(err));
+  });
+}
 
-// function seedUserData() {
-//   console.info('seeding blog post data');
-//   const seedData = [];
-//   for (let i = 1; i <= 5; i++) {
-//     seedData.push({
-//       username: faker.internet.userName(),
-//       firstName: faker.name.firstName(),
-//       lastName: faker.name.lastName(),
-//       songs: [{
-//         title: faker.name.title(),
-//         lyrics: faker.lorem.sentence(),
-//         artist: faker.name.firstName(),
-//         notes: faker.lorem.words()
-//       },
-//       {
-//         title: faker.name.title(),
-//         lyrics: faker.lorem.sentence(),
-//         artist: faker.name.firstName(),
-//         notes: faker.lorem.words()
-//       },
-//       {
-//         title: faker.name.title(),
-//         lyrics: faker.lorem.sentence(),
-//         artist: faker.name.firstName(),
-//         notes: faker.lorem.words()
-//       }]
-//     });
-//   }
-//   return User.insertMany(seedData);
-// }
+function seedData() {
+  console.info('seeding song data');
+  const songs = [
+    {'title': 'title1', 'lyrics':'lyrics1', 'artist':'artist1', 'notes':'none1'},
+    {'title': 'title2', 'lyrics':'lyrics2', 'artist':'artist2', 'notes':'none2'},
+    {'title': 'title3', 'lyrics':'lyrics3', 'artist':'artist3', 'notes':'none3'},
+    {'title': 'title4', 'lyrics':'lyrics4', 'artist':'artist4', 'notes':'none4'}
+  ];
+  return Song.insertMany(songs)
+    .then(songs => {
+      console.log('seeding user data');
+      const users = [
+        {username: 'joey', firstName: 'joe', lastName:'schmoe', songs: [{_id: songs[0]._id}, {_id: songs[1]._id}]},
+        {username: 'annie', firstName: 'anne', lastName:'someone', songs: [{_id: songs[1]._id}, {_id: songs[2]._id}]},
+        {username: 'jordo', firstName: 'jordan', lastName:'green', songs: [{_id: songs[2]._id}, {_id: songs[3]._id}]}
+      ];
+      return User.insertMany(users);
+    })
+    .catch(err => console.error(err));
+} 
 
 
-// describe('Users endpoints tests', function() {
 
-//   before(function () {
-//     return runServer(TEST_DATABASE_URL);
-//   });
 
-//   beforeEach(function () {
-//     return tearDownDb()
-//       .then(() => {
-//         return seedUserData();
-//       });
-//   });
 
-//   // afterEach(function () {
-//   //   return tearDownDb();
-//   // });
+describe('Users endpoints tests', function() {
 
-//   after(function () {
-//     return closeServer();
-//   });
+  before(function () {
+    console.log('runServer')
+    return runServer(TEST_DATABASE_URL);
+  });
+
+  beforeEach(function () {
+    return tearDownDb()
+      .then(() => {
+        return seedData();
+      });
+  });
+
+  // afterEach(function () {
+  //   return tearDownDb();
+  // });
+
+  after(function () {
+    return closeServer();
+  });
   
   
-//   describe('GET endpoint', function() {
-//     it('should return all existing users', function() {
-//       let res;
-//       return chai.request(app)
-//         .get('/users')
-//         .then(_res => {
-//           res = _res;
-//           res.should.have.status(200);
-//           res.body.should.have.length.of.at.least(1);
-//           return User.count();
-//         })
-//         .then(count => {
-//           res.body.should.have.length.of(count);
-//         });
-//     });
-  
+  describe('GET endpoint', function() {
+
+    it('should return all existing users', function() {
+      let response;
+      return chai.request(app)
+        .get('/users')
+        .then(_res => {
+          response = _res;
+          response.should.have.status(200);
+          response.should.be.json;
+          response.body.should.be.a('array');
+          response.body.should.have.length.of.at.least(1);
+          return User.count();
+        })
+        .then(count => {
+          response.body.should.have.length(count);
+        });
+    });
+  }); 
 //     it('should return users with right fields', function () {
 //       let resUser;
 //       return chai.request(app)
@@ -235,5 +232,5 @@
   
 // });
   
-// });
+});
 
