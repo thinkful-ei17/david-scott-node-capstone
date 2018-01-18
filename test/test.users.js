@@ -90,7 +90,7 @@ describe('Users endpoints tests', function() {
     });
 
     it('should return users with correct fields', function () {
-      let resUser;
+    
       return chai.request(app)
         .get('/users')
         .then(res => {
@@ -99,10 +99,31 @@ describe('Users endpoints tests', function() {
           res.body.forEach(user => {
             user.should.be.a('object');
             user.should.include.keys('username', 'name', 'songs');
+            user.songs.should.be.a('array');
           });
         });
     });
-  });           
+
+    it('should return one user by id', function(){
+      let user;
+      return chai.request(app)
+        .get('/users')
+        .then(res => {
+          user = res.body[0];
+          // console.log('user:', user);
+          return chai.request(app)
+            .get(`/users/${user.id}`);
+        })
+        .then(res => {
+          let resUser = res.body;
+          resUser.id.should.equal(user.id);
+          resUser.username.should.equal(user.username);
+          resUser.name.should.equal(`${user.body.firstName} ${user.body.lastName}`);
+          resUser.songs.should.equal(user.body.songs);
+        })
+        .catch(err => console.log(err));    
+    });
+  }); //ends get endpoint describe block          
   //         resUser = res.body[0];
   //         console.log('resUser.id:', resUser.id);
   //         return chai.request(app)
