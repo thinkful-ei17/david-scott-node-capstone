@@ -13,7 +13,7 @@ class Store {
 
   }
 
-  insert(doc){
+  insertSong(doc){
     this.currentSong = doc;
     this.list.push(doc);
   }
@@ -40,7 +40,7 @@ class Store {
   }
 
   findByIdUser(id) {
-    return this.users.find(song => song.id === id);
+    return this.users.find(user => user.id === id);
   }  
 
   findByIdAndUpdateUser(doc) {
