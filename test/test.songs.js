@@ -180,13 +180,6 @@ describe('Songs endpoints tests', function() {
         .then(_song => {
           should.not.exist(_song);
         });
-    // .catch( res => {
-    //     console.log('1----------------');
-    //     console.log(JSON.stringify(res.response.text, null, 4));
-    //     console.log('2----------------');
-    //     // i want it to fail; so i put 200 instead of 500
-    //     res.should.have.status(200);
-    // });
     });
   });
 });

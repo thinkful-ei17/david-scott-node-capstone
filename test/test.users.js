@@ -94,7 +94,7 @@ describe('Users endpoints tests', function() {
       return chai.request(app)
         .get('/users')
         .then(res => {
-          console.log('correct fields initial response:',  res);
+          // console.log('correct fields initial response:',  res);
           res.should.be.status(200);
           res.body.forEach(user => {
             user.should.be.a('object');
@@ -128,12 +128,12 @@ describe('Users endpoints tests', function() {
   
   describe('POST endpoint', function () {
   
-    it.only('should add a new User', function () {
+    it('should add a new User', function () {
       let songs;
       return chai.request(app)
         .get('/songs')
         .then(res =>{
-          console.log(res.body);
+          // console.log(res.body);
           songs = res.body;
           return songs;
         })
@@ -144,13 +144,13 @@ describe('Users endpoints tests', function() {
             lastName: 'Newman',
             songs: [{_id: songs[0].id}, {_id: songs[1].id}]
           };
-          console.log('newUser:', newUser);
+          // console.log('newUser:', newUser);
           return chai.request(app)
             .post('/users')
             .send(newUser)
             .then(res => {
-              console.log('stringified:', JSON.stringify(res, null, 4));
-              console.log('last res is:',JSON.stringify(res.body, null, 4));
+              // console.log('stringified:', JSON.stringify(res, null, 4));
+              // console.log('last res is:',JSON.stringify(res.body, null, 4));
               res.should.be.json;
               res.body.should.be.a('object');
               res.body.should.include.keys('id', 'username', 'name', 'songs');
@@ -180,7 +180,7 @@ describe('Users endpoints tests', function() {
       return User
         .findOne()
         .then(res => {
-          console.log('res:', res);
+          // console.log('res:', res);
           updateData.id = res._id;
   
           return chai.request(app)
@@ -190,7 +190,7 @@ describe('Users endpoints tests', function() {
         .then(res => {
           res.should.have.status(205);
           resUser = res.body;
-          console.log(res.body);
+          // console.log(res.body);
           return User.findById(updateData.id)
             .then(res => {
               res.firstName.should.equal(updateData.firstName);

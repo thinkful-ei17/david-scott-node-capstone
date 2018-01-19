@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     .find()
     .populate('songs')
     .then(users => {
-      console.log('are there songs from the users here?', users);
+      // console.log('are there songs from the users here?', users);
       res.json(users.map(user => user.serialize()));
     })
     .catch(err => {
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     .findById(req.params.id)
     .populate('songs')
     .then(user => {
-      console.log(user);
+      // console.log(user);
       res.json(user.serialize());
     })
     .catch(err => {
