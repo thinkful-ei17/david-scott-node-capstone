@@ -1,0 +1,162 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  
+}
+
+body {
+  /* background-image: url("https://static.pexels.com/photos/65210/beer-a-pint-cup-alcohol-65210.jpeg"); */
+  background-repeat: no-repeat;
+  background-image: url("https://static.pexels.com/photos/669213/pexels-photo-669213.jpeg");
+  background-size: cover;
+  color: #FFFFFF;
+/*   text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575; */
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+  text-align: center;
+}
+
+header {
+  color: #FFFFFF;
+  margin: 2em;
+  text-align: center;
+   text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+}
+nav {
+  background-color: #757575;
+  opacity: .79;
+  height: 1.5em;
+  padding: 3px;
+  text-align: right;
+  border-radius: 3px
+
+}
+
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+  margin-right:.5em;
+}
+.home-buttons {
+  text-align: center;
+}
+.home-page-button, .edit-buttons, .submit-buttons {
+   display: inline-block;
+   text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+   text-align: center;
+   box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+   padding-left: 1.2em;
+   margin: 0 1.7em;
+   background-color:rgba(255, 193, 7, .1);
+   border-radius: 3px;
+}
+
+.submit-buttons {
+  margin: 1em;
+/*   margin-left: %; */
+  position: relative;
+  left: 55%;
+}
+
+label:hover {
+  background-color: rgb(255, 193, 7);
+}
+
+button{
+   opacity: 0;
+ }
+
+.search-button {
+   display: inline-block;
+   text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+   text-align: center;
+   box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+   padding:0 1.2em;
+   margin: 1.7em;
+   background-color:rgba(255, 193, 7, .1);
+   border-radius: 3px;
+}
+.search-lable {
+  font-size: 1.1em;
+  text-align: center;
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+}
+
+.read-lyrics {
+  margin: 1em 0 auto;
+  white-space: pre-wrap;
+  text-align: left;
+  background-color: #757575;
+  opacity: .79;
+  padding: 1em;
+  border-radius: 10px;
+}
+
+#read{
+  width: 80%;
+  margin-left: auto;
+  margin-right:auto;
+
+}
+
+select {
+  opacity: .7;
+}
+
+.add-input {
+  opacity: .7;
+  border-radius: 5px;
+}
+
+.user-input, .title-input { 
+  position: relative; 
+  left: 10px; 
+}
+
+.artist-input, .notes-input { 
+  position: relative; 
+  left: 3px; 
+}
+
+
+fieldset {
+  margin: 1em auto 4em; 
+  padding: 1em; 
+  width: 30%;
+  text-align: left;
+  border-radius: 10px
+}
+
+.lyrics-input{
+  opacity: .9;
+  border-radius: 5px;
+}
+ul {
+  display: inline-block;
+  margin: 0;
+  list-style:none;
+  text-align: center;
+  /*   margin-left:auto;
+  margin-right:auto; */
+}
+
+li {
+  list-style: none;
+  padding: .5em;
+  text-align: center;
+  margin-right:30px;
+  }
+
+
+.song:hover {
+  color: rgb(255, 193, 7);
+} 
+ 
+span {
+  padding-left: 1em
+}
+main {
+  text-align: center;
+}

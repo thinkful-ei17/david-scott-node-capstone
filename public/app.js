@@ -14,9 +14,17 @@ function generateHomePageHTML(){
   </header>
 
   <form>
-    <button class='to-search, js-to-search' id='home-submit-search'>To the Search!</button> 
-    <button class='to-add, js-add' id='home-submit-add'>Add Lyrics Here!</button>
-  </form>
+  <div class='home-buttons'>
+    <label for='home-submit-search' class='button, home-page-button' id='home-to-search'>To the Search!
+      <button class='to-search, js-to-search' id='home-submit-search'>
+      </button> 
+    </label>  
+    <label for='home-submit-add' class='button, home-page-button' id='home-to-add'>Add Lyrics Here! 
+      <button class='to-add, js-add' id='home-submit-add'></button>
+    </label>  
+  <div>
+  <form>
+
   `;
 }
 
@@ -24,7 +32,7 @@ function generateAddPageHTML() {
   return `
   <form id="add-form" class="view">
     <fieldset>
-      <span>User</span>
+      <label for='user-choose'>User</label>
       <select name='user-choose' class='user-choose, js-user-choose, add-input user-input' id='user-choose' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
@@ -45,7 +53,9 @@ function generateAddPageHTML() {
         <label for="notes">Notes</label>
         <input class='add-input notes-input' type="text" name="notes">
       </div>
-      <button id="submit-add">Submit</button>
+      <label for="submit-add" class="submit-buttons">Add Song
+      <button id="submit-add"></button>
+      </label>
     </fieldset>
   </form>
   `;
@@ -57,11 +67,17 @@ function generateReadPageHTML() {
   <div id="read" class="view">
     <h3>Title: ${song.title}</h3>
     <p>Artist: ${song.artist}</p>
-    <p class='read-lyrics'>Lyrics:</br>${song.lyrics}</p>
+    <p class='read-lyrics'>
+      ${song.lyrics}
+    </p>
     <p>Notes:</br>${song.notes}</p>
-    <button id='edit-button'>Edit</button>
-    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>
-  </div>
+    <label for='edit-button' class='edit-buttons'>Edit
+        <button id='edit-button'></button>
+    </label>
+    <label for='delete-button' class='edit-buttons'>Delete   
+    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'></button>
+    </label>
+    </div>
 
   `;
 }
@@ -74,17 +90,20 @@ function generateSearchPageHTML(){
         </h2>
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
-        <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
-      
+        <input type='text' class='title-input, js-title-input, add-input' id='title-input' form='search-form' placeholder='title to search'>
+        </br>
+          <p>OR</p>
+        </br>
         <lable for='title-search' class='search-lable'>Search By User</lable>
         <select name='user-search' class='user-search, js-user-search' id='user-search' form='search-form'>
             <option></option>
             ${generateUserOptionsHTML()}
         </select>
-      
+        </br>
+        <label for='search-submit' class='search-button'>Search Now!</label>
         <button class='search-button, js-search-button' id='search-submit'>
-          Search Now!
         </button>
+        </label>
       </form>
     `;
 }
@@ -118,18 +137,18 @@ function generateEditPageHTML() {
   return `
   <form id="edit-form" class="view">
     <fieldset>
-      <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose user-input' id='user-choose' form='add-form' required>
+      <label for='user-choose-edit'>User</label>
+      <select name='user-choose' class='user-choose, js-user-choose user-input' id='user-choose-edit' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
       </select>
       <div>
         <label for="title">Title</label>
-        <input class='title-input' type="text" name="title" required>
+        <input class='title-input add-input' type="text" name="title" required>
       </div>
       <div>
         <label for="artist">Artist</label>
-        <input class='artist-input' type="text" name="artist">
+        <input class='artist-input add-input' type="text" name="artist">
       </div> 
       <div>
         <label for="lyrics">Lyrics</label>
@@ -137,9 +156,11 @@ function generateEditPageHTML() {
       </div>
       <div>
         <label for="notes">Notes</label>
-        <input class='notes-input' type="text" name="notes">
+        <input class='notes-input add-input' type="text" name="notes">
       </div>
-      <button id="submit-add">Submit</button>
+      <label for="submit-edit" class="submit-buttons">Edit Song
+      <button id="submit-edit"></button>
+      </label>
     </fieldset>
   </form>
   `;
