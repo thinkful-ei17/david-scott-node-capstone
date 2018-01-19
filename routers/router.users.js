@@ -65,7 +65,7 @@ router.post('/', (req, res) => {
       lastName: req.body.lastName,
       songs: req.body.songs
     })
-    .then(user =>
+    .then(user => 
       res.status(201).json(user.serialize()))
     .catch(err=>console.error(err));
 });   
