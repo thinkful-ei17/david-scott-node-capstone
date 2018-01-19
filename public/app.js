@@ -70,7 +70,9 @@ function generateReadPageHTML() {
   <div id="read" class="view">
     <h3>Title: ${song.title}</h3>
     <p>Artist: ${song.artist}</p>
-    <p class='read-lyrics'>Lyrics:</br>${song.lyrics}</p>
+    <p class='read-lyrics'>
+      ${song.lyrics}
+    </p>
     <p>Notes:</br>${song.notes}</p>
     <button id='edit-button'>Edit</button>
     <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>

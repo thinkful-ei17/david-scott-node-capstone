@@ -72,10 +72,22 @@ button{
   text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
 }
 
-p {
+.read-lyrics {
   margin: 1em 0 auto;
+  white-space: pre-wrap;
+  text-align: left;
+  background-color: #757575;
+  opacity: .79;
+  padding: 1em;
+  border-radius: 10px;
 }
 
+#read{
+  width: 80%;
+  margin-left: auto;
+  margin-right:auto;
+
+}
 select {
   opacity: .7;
 }
