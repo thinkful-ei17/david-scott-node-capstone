@@ -99,7 +99,7 @@ function generateSearchPageHTML(){
         </h2>
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
-        <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
+        <input type='text' class='title-input, js-title-input, add-input' id='title-input' form='search-form' placeholder='title to search'>
         </br>
           <p>OR</p>
         </br>

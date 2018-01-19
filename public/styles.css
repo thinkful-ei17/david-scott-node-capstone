@@ -50,6 +50,7 @@ a {
    padding-left: 1.2em;
    margin: 0 1.7em;
    background-color:rgba(255, 193, 7, .1);
+   border-radius: 3px;
 }
 
 .submit-buttons {
@@ -75,6 +76,7 @@ button{
    padding:0 1.2em;
    margin: 1.7em;
    background-color:rgba(255, 193, 7, .1);
+   border-radius: 3px;
 }
 .search-lable {
   font-size: 1.1em;
