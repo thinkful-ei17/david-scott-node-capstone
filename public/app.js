@@ -3,6 +3,9 @@
 
 const STORE = new Store();
 
+
+// HTML generators
+
 function generateHomePageHTML(){
   return `
   <header>   
@@ -23,10 +26,6 @@ function generateHomePageHTML(){
   <form>
 
   `;
-}
-
-function renderHomePage(){
-  $('main').html(generateHomePageHTML());
 }
 
 function generateAddPageHTML() {
@@ -62,10 +61,6 @@ function generateAddPageHTML() {
   `;
 }
 
-function renderAddPage() {
-  $('main').html(generateAddPageHTML());
-}
-
 function generateReadPageHTML() {
   const song = STORE.currentSong;
   return `
@@ -85,10 +80,6 @@ function generateReadPageHTML() {
     </div>
 
   `;
-}
-
-function renderReadPage() {
-  $('main').html(generateReadPageHTML());
 }
 
 function generateSearchPageHTML(){
@@ -117,43 +108,6 @@ function generateSearchPageHTML(){
     `;
 }
 
-
-function searchSongByTitle(title){
-  const songs = STORE.list;
-  const song = songs.find(song => song.title === title);
-  console.log('song:', song);
-  STORE.currentSong = song;
-}
-
-function searchSongByUser(userToSearch){
-  const users = STORE.users;
-  console.log('STORE.users:', STORE.users);
-  const userMatch = users.filter(user => user.username === userToSearch);
-  console.log('user:', userMatch[0]);
-  const songs = userMatch[0].songs;
-  STORE.songsFromSearch = songs;
-  console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
-  // renderPage();
-}
-
-function searchForSongs(title, user){
-
-  if(title){
-    searchSongByTitle(title);
-    STORE.view = 'read';
-  }
-  if(user){
-    searchSongByUser(user);
-    STORE.view = 'search-results';
-  }
-}
-
-
-function renderSearchPage(){
-  console.log('renderSearchPage ran');
-  $('main').html(generateSearchPageHTML());
-}
-
 function generateSearchResultsHTML() {
   console.log('generateSearchResultsHTML ran');
 
@@ -170,23 +124,6 @@ function generateSearchResultsHTML() {
   `;
 }
 
-function makeSearchResultsList(){
-  //change this back to STORE.songsFromSearch when I figure out that part//
-  const resultList = STORE.songsFromSearch.map(song => {
-    return `
-    <li id="${song.song_id}">
-      <a href="#" class="song">${song.title}</a><span>Written By:${song.artist}</span>
-    </li>
-    `;
-  });
-  return resultList.join(' ');
-}
-
-function renderSearchResultsPage() {
-  console.log('renderSearchResults ran');
-  $('main').html(generateSearchResultsHTML());
-}
-
 function generateListPageHTML() {
   return `
     <h2>List of All Songs</h2>
@@ -194,20 +131,6 @@ function generateListPageHTML() {
       ${renderList().join('')}
     </ul>
   `;
-}
-
-function renderList() {
-  return STORE.list.map(song => {
-    return `
-    <li id="${song.id}">
-      <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
-    </li>
-    `;
-  });
-}
-
-function renderListPage() {
-  $('main').html(generateListPageHTML());
 }
 
 function generateEditPageHTML() {
@@ -243,6 +166,52 @@ function generateEditPageHTML() {
   `;
 }
 
+function generateUserOptionsHTML() {
+  const userOptions = STORE.users.map(user => {
+    return `<option id="${user.id}" class="user">${user.username}</option>`;
+  });
+  return userOptions;
+}
+
+
+// Page Renderers
+
+function renderHomePage(){
+  $('main').html(generateHomePageHTML());
+}
+
+function renderAddPage() {
+  $('main').html(generateAddPageHTML());
+}
+
+function renderReadPage() {
+  $('main').html(generateReadPageHTML());
+}
+
+function renderSearchPage(){
+  console.log('renderSearchPage ran');
+  $('main').html(generateSearchPageHTML());
+}
+
+function renderSearchResultsPage() {
+  console.log('renderSearchResults ran');
+  $('main').html(generateSearchResultsHTML());
+}
+
+function renderList() {
+  return STORE.list.map(song => {
+    return `
+    <li id="${song.id}">
+      <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
+    </li>
+    `;
+  });
+}
+
+function renderListPage() {
+  $('main').html(generateListPageHTML());
+}
+
 function renderEditPage() {
   const el = $('main');
   $('main').html(generateEditPageHTML());
@@ -254,6 +223,77 @@ function renderEditPage() {
   el.find('[name=notes]').val(song.notes);
 }
 
+function renderPage() {
+  switch (STORE.view) {
+  case 'home': 
+    renderHomePage();
+    break;
+  case 'search':
+    renderSearchPage();
+    break;
+  case 'search-results':
+    renderSearchResultsPage();
+    break;
+  case 'add': 
+    renderAddPage();
+    break;
+  case 'read': 
+    renderReadPage();
+    break;
+  case 'list':
+    renderListPage();
+    break;
+  case 'edit':
+    renderEditPage();
+    break;
+  }
+}
+
+
+// Helper Functions
+
+function searchSongByTitle(title){
+  const songs = STORE.list;
+  const song = songs.find(song => song.title === title);
+  console.log('song:', song);
+  STORE.currentSong = song;
+}
+
+function searchSongByUser(userToSearch){
+  const users = STORE.users;
+  console.log('STORE.users:', STORE.users);
+  const userMatch = users.filter(user => user.username === userToSearch);
+  console.log('user:', userMatch[0]);
+  const songs = userMatch[0].songs;
+  STORE.songsFromSearch = songs;
+  console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
+  // renderPage();
+}
+
+function searchForSongs(title, user){
+
+  if(title){
+    searchSongByTitle(title);
+    STORE.view = 'read';
+  }
+  if(user){
+    searchSongByUser(user);
+    STORE.view = 'search-results';
+  }
+}
+
+function makeSearchResultsList(){
+  //change this back to STORE.songsFromSearch when I figure out that part//
+  const resultList = STORE.songsFromSearch.map(song => {
+    return `
+    <li id="${song.song_id}">
+      <a href="#" class="song">${song.title}</a><span>Written By:${song.artist}</span>
+    </li>
+    `;
+  });
+  return resultList.join(' ');
+}
+
 function getUsers() {
   api.searchAllUsers()
     .then(response => {
@@ -263,13 +303,6 @@ function getUsers() {
       console.log('getAllUsers made store.users:',STORE.users);
     })
     .catch(err => console.error(err));
-}
-
-function generateUserOptionsHTML() {
-  const userOptions = STORE.users.map(user => {
-    return `<option id="${user.id}" class="user">${user.username}</option>`;
-  });
-  return userOptions;
 }
 
 function getAllSongs() {
@@ -327,7 +360,7 @@ function createSong(event) {
     });
 }
 
-function deleteSong(event) {
+function deleteSong() {
   const id = STORE.currentSong.id;
   api.remove(id)
     .then(() => {
@@ -380,34 +413,6 @@ function editSong(event) {
     .catch(err => {
       console.error(err);
     });
-}
-
-
-
-function renderPage() {
-  switch (STORE.view) {
-  case 'home': 
-    renderHomePage();
-    break;
-  case 'search':
-    renderSearchPage();
-    break;
-  case 'search-results':
-    renderSearchResultsPage();
-    break;
-  case 'add': 
-    renderAddPage();
-    break;
-  case 'read': 
-    renderReadPage();
-    break;
-  case 'list':
-    renderListPage();
-    break;
-  case 'edit':
-    renderEditPage();
-    break;
-  }
 }
 
 function navBarEventListeners(){

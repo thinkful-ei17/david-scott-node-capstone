@@ -26,13 +26,6 @@ function normalizeResponseErrors(res) {
   return res;
 }
 
-// get all users
-// get specific songs
-// get one specific song
-// post one song
-
-// update and delete song
-
 const api = {
   searchAllSongs: function (query = {}) {
     const url = buildUrl('/songs/', query);
