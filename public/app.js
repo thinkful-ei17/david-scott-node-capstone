@@ -92,16 +92,19 @@ function generateSearchPageHTML(){
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
         <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
-      
+        </br>
+          <p>OR</p>
+        </br>
         <lable for='title-search' class='search-lable'>Search By User</lable>
         <select name='user-search' class='user-search, js-user-search' id='user-search' form='search-form'>
             <option></option>
             ${generateUserOptionsHTML()}
         </select>
-      
+        </br>
+        <label for='search-submit' class='search-button'>Search Now!</label>
         <button class='search-button, js-search-button' id='search-submit'>
-          Search Now!
         </button>
+        </label>
       </form>
     `;
 }
