@@ -126,21 +126,6 @@ describe('Users endpoints tests', function() {
   }); //ends get endpoint describe block  
   
   
-
-  //         resUser = res.body[0];
-  //         console.log('resUser.id:', resUser.id);
-  //         return chai.request(app)
-  //           .get(`/users/${res.User.id}`)
-  //       })
-  //       .then(user => {
-  //         console.log('user from findBy id:', user.body);
-  //         resUser.username.should.equal(user.body.username);
-  //         resUser.name.should.equal(`${user.body.firstName} ${user.body.lastName}`);
-  //         resUser.songs.should.equal(user.body.songs);
-  //       });
-  //   });
-  // });
-  
   describe('POST endpoint', function () {
   
     it.only('should add a new User', function () {
@@ -164,7 +149,8 @@ describe('Users endpoints tests', function() {
             .post('/users')
             .send(newUser)
             .then(res => {
-              console.log('last res is:',res.body);
+              console.log('stringified:', JSON.stringify(res, null, 4));
+              console.log('last res is:',JSON.stringify(res.body, null, 4));
               res.should.be.json;
               res.body.should.be.a('object');
               res.body.should.include.keys('id', 'username', 'name', 'songs');
@@ -174,75 +160,49 @@ describe('Users endpoints tests', function() {
               res.should.have.status(201);
               res.body.name.should.equal(`${newUser.firstName} ${newUser.lastName}`);
               // res.body.songs.should.equal(newUser.songs);
-               
-              // return BlogPost.findById(res.body.id);
+              //the song thing is having trouble - I think because of the cross-pollination
+              //need to figure out how to work that out
             });
         });    
     });  
-
-    //   return chai.request(app)
-    //     .post('/users')
-    //   // .auth('username', 'password')
-    //     .send(newUser)
-    //     .then(res => {
-    //       res.should.have.status(201);
-    //       res.should.be.json;
-    //       res.body.should.be.a('object');
-    //       res.body.should.include.keys(
-    //         'id', 'username', 'name', 'songs');
-    //       res.body.username.should.equal(newUser.username);
-    //       // cause Mongo should have created id on insertion
-    //       res.body.id.should.not.be.null;
-    //       res.body.name.should.equal(
-    //         `${newUser.author.firstName} ${newUser.author.lastName}`);
-    //       res.body.songs.should.equal(newUser.songs);
-    //       return BlogPost.findById(res.body.id);
-    //     })
-    //     .then(function (post) {
-    //       post.title.should.equal(newPost.title);
-    //       post.content.should.equal(newPost.content);
-    //       post.author.firstName.should.equal(newPost.author.firstName);
-    //       post.author.lastName.should.equal(newPost.author.lastName);
-    //     });
-    // });
   });
   
-// describe('PUT endpoint', function () {
+  describe('PUT endpoint', function () {
   
-//   it('should update fields you send over when authenticated', function () {
-//     const updateData = {
-//       username: 'bt',
-//       password: 'baseball',
-//       title: 'cats cats cats',
-//       content: 'dogs dogs dogs',
-//       author: {
-//         firstName: 'foo',
-//         lastName: 'bar'
-//       }
-//     };
+    it('should update fields you send over', function () {
+      let resUser;
+
+      const updateData = {
+        firstName: 'Miss',
+        lastName: 'Piggy'
+      };
+
+      return User
+        .findOne()
+        .then(res => {
+          console.log('res:', res);
+          updateData.id = res._id;
   
-//     return BlogPost
-//       .findOne()
-//       .then(post => {
-//         updateData.id = post.id;
-  
-//         return chai.request(app)
-//           .put(`/users/${post.id}`)
-//           .send(updateData);
-//       })
-//       .then(res => {
-//         res.should.have.status(204);
-//         return BlogPost.findById(updateData.id);
-//       })
-//       .then(post => {
-//         post.title.should.equal(updateData.title);
-//         post.content.should.equal(updateData.content);
-//         post.author.firstName.should.equal(updateData.author.firstName);
-//         post.author.lastName.should.equal(updateData.author.lastName);
-//       });
-//   });
-// });
-  
+          return chai.request(app)
+            .put(`/users/${res._id}`)
+            .send(updateData);
+        })
+        .then(res => {
+          res.should.have.status(205);
+          resUser = res.body;
+          console.log(res.body);
+          return User.findById(updateData.id)
+            .then(res => {
+              res.firstName.should.equal(updateData.firstName);
+              res.lastName.should.equal(updateData.lastName);
+              //this test should have more things, like song... 
+              //but I'm having trouble with the song population right now, 
+              //so I'm skipping it.
+            });  
+        });
+    });
+  });        
+
 // describe('DELETE endpoint', function () {
   
 //   it('should delete a post by id when authenticated', function () {
