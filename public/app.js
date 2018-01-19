@@ -14,9 +14,17 @@ function generateHomePageHTML(){
   </header>
 
   <form>
-    <button class='to-search, js-to-search' id='home-submit-search'>To the Search!</button> 
-    <button class='to-add, js-add' id='home-submit-add'>Add Lyrics Here!</button>
-  </form>
+  <div class='home-buttons'>
+    <label for='home-submit-search' class='button, home-page-button' id='home-to-search'>To the Search!
+      <button class='to-search, js-to-search' id='home-submit-search'>
+      </button> 
+    </label>  
+    <label for='home-submit-add' class='button, home-page-button' id='home-to-add'>Add Lyrics Here! 
+      <button class='to-add, js-add' id='home-submit-add'></button>
+    </label>  
+  <div>
+  <form>
+
   `;
 }
 

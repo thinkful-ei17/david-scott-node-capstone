@@ -1,13 +1,61 @@
 body {
   box-sizing: border-box;
-  padding-top: 4em;
   text-align: center;
+  margin: 1em auto;
+  background-color:#0288D1;
+  color: #212121;
 }
 
+nav.nav {
+  background-color: #03A9F4;
+  width: 80%;
+  padding: .7em;
+  text-align: center;
+  display: inline-block;
+  border-radius: 5px;  
+}
+
+.nav-link {
+  color:#FFFFFF;
+  padding: 1em;
+}
+
+
 header {
-  margin-top: 10px;
-  padding-top: 1em;
-  padding-bottom: 2em;
+
+  padding: 1em 1em;
+  margin: 1em 0;
+  display: inline-block;
+  position: relative;
+  background-color: #B3E5FC;;
+  width: 75%;
+  border-radius: 5px;
+
+
+}
+/*  */
+.home-page-button {
+  background-color:#FFC107;
+  display: inline-block;
+  width: 40%;
+  margin: .4em auto;
+  box-sizing: border-box;
+  padding: 5px; 
+  color: #212121;
+  position: relative;
+
+}
+
+button {
+  opacity: 0;
+}
+
+.home-buttons{
+  background-color:#03A9F4;
+  display: inline-block
+  text-align: center;
+  witdh: 80%;
+  
 }
 ul {
   list-style-type: none;
@@ -25,6 +73,7 @@ form {
   position: relative;
 }
 
+
 main {
   /* position: absolute; */
   /* text-align: center; */
@@ -37,6 +86,10 @@ nav {
 
 a {
   text-decoration: none;
+}
+
+a:hover {
+  color: #FFC107;
 }
 
 fieldset {
