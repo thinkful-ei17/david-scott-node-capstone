@@ -38,19 +38,15 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
 
   // I want to check if all user.songs is in our songs db
-
-  // const eyeDee = req.body.songs[0]._id;
-  // console.log('id', typeof(eyeDee));
-  // const sss = Song.findById(eyeDee);
-  // console.log(Song);
-  // for (let i = 0; i < req.body.songs.length; i++) {
-  //   // console.log(Song.findById(req.body.songs[i]._id));
-  //   if (!(Song.findById(req.body.songs[i]._id) in Song)) {
-  //     return res.status(400).json({
-  //       error: 'Song not in songs db'
-  //     });
-  //   }
-  // }
+  for (let i = 0; i < req.body.songs.length; i++) {
+    const id = req.body.songs[i]._id;
+    Song
+      .findById(id)
+      .then(() => {})
+      .catch(err => {
+        res.status(400).send('song not in db');
+      });
+  }
 
   const requiredFields = ['username'];
   for (let i = 0; i < requiredFields.length; i++) {
@@ -96,9 +92,14 @@ router.put('/:id', (req, res) => {
     .catch(err => console.error(err));
 });
 
-// router.delete()
-
-
+router.delete('/:id', (req, res) => {
+  User
+    .findByIdAndRemove(req.params.id)
+    .then(() => {
+      console.log(`Deleted user with id: ${req.params.id}`);
+      res.status(204).end();
+    });
+});
 
 
 
