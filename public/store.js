@@ -1,8 +1,7 @@
 'use strict';
 
 class Store {
-  // Setting all the store properties to null is not strictly necessary
-  //  but it does provide a nice way of documenting the fields
+
   constructor() {
     this.list = null;
     this.currentSong = null;
@@ -10,7 +9,6 @@ class Store {
     this.currentUser = null;
     this.songsFromSearch = null;
     this.view = 'home';
-
   }
 
   insertSong(doc){
@@ -51,5 +49,4 @@ class Store {
     }
     return obj;
   }
-
 }

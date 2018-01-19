@@ -19,17 +19,9 @@ app.use(bodyParser.json());
 app.use('/songs', routerSong);
 app.use('/users', routerUser);
 
-
-app.get('/', (req, res) => {
-  res.status(200).json('this is html');
-});
-
-
-
-
-
-
-
+// app.get('/', (req, res) => {
+//   res.status(200).json('this is html');
+// });
 
 let server;
 
@@ -66,7 +58,6 @@ function closeServer() {
     });
   });
 }
-  
 
 if (require.main === module) {
   runServer().catch(err => console.error(err));
