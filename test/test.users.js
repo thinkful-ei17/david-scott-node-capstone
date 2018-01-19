@@ -128,7 +128,7 @@ describe('Users endpoints tests', function() {
   
   describe('POST endpoint', function () {
   
-    it('should add a new User', function () {
+    it.only('should add a new User', function () {
       let songs;
       return chai.request(app)
         .get('/songs')
@@ -150,7 +150,7 @@ describe('Users endpoints tests', function() {
             .send(newUser)
             .then(res => {
               console.log('stringified:', JSON.stringify(res, null, 4));
-              console.log('last res is:',res.body);
+              console.log('last res is:',JSON.stringify(res.body, null, 4));
               res.should.be.json;
               res.body.should.be.a('object');
               res.body.should.include.keys('id', 'username', 'name', 'songs');
@@ -203,16 +203,6 @@ describe('Users endpoints tests', function() {
     });
   });        
 
-
-  //       .then(post => {
-  //         post.should.equal(updateData.title);
-  //         post.content.should.equal(updateData.content);
-  //         post.author.firstName.should.equal(updateData.author.firstName);
-  //         post.author.lastName.should.equal(updateData.author.lastName);
-  //       });
-  //   });
-  // });
-  
 // describe('DELETE endpoint', function () {
   
 //   it('should delete a post by id when authenticated', function () {
