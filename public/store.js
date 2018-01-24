@@ -9,6 +9,7 @@ class Store {
     this.currentUser = null;
     this.songsFromSearch = null;
     this.view = 'home';
+    this.message = null;
   }
 
   insertSong(doc){

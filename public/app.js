@@ -13,7 +13,7 @@ function generateHomePageHTML(){
     <h2>Refresh your memory while filling your glass!</h2>
   </header>
 
-  <form>
+  <form id='home-page-form'>
   <div class='home-buttons'>
     <label for='home-submit-search' class='button, home-page-button' id='home-to-search'>To the Search!
       <button class='to-search, js-to-search' id='home-submit-search'>
@@ -191,6 +191,9 @@ function renderReadPage() {
 function renderSearchPage(){
   console.log('renderSearchPage ran');
   $('main').html(generateSearchPageHTML());
+  if(STORE.message){
+    $('main').append(`<h4>${STORE.message}</h4>`);
+  }
 }
 
 function renderSearchResultsPage() {
@@ -253,10 +256,20 @@ function renderPage() {
 // Helper Functions
 
 function searchSongByTitle(title){
-  const songs = STORE.list;
-  const song = songs.find(song => song.title === title);
-  console.log('song:', song);
-  STORE.currentSong = song;
+  console.log('store.list[0]:', STORE.list[0]);
+  const songs = STORE.list.filter(song => song.title.toLowerCase().includes(title));
+  console.log('songs:', songs);
+  if (songs.length === 1){
+    STORE.currentSong = songs[0];
+    STORE.view = 'read';
+  }
+  else if (songs.length > 1){
+    STORE.songsFromSearch = songs;
+    STORE.view = 'search-results';
+  }
+  else {
+    STORE.message = 'There is no match for that title.';
+  }
 }
 
 function searchSongByUser(userToSearch){
@@ -270,16 +283,20 @@ function searchSongByUser(userToSearch){
   // renderPage();
 }
 
-function searchForSongs(title, user){
+function searchForSongs(){
+  const title = $('#title-input').val().toLowerCase().trim();
+  const user = $('.js-user-search').val();
+  console.log(`title: ${title} user: ${user}`);
 
   if(title){
-
     searchSongByTitle(title);
-    STORE.view = 'read';
   }
-  if(user){
+  else if(user){
     searchSongByUser(user);
     STORE.view = 'search-results';
+  }
+  else {
+    STORE.message = 'The search will work better if you enter a title OR select a User.'; 
   }
 }
 
@@ -461,11 +478,9 @@ $(() => {
 
   $('main').on('click', '.js-search-button', function(event){
     event.preventDefault();
-    console.log($('#title-input').val());
-    const title = $('#title-input').val().toLowerCase().trim();
-    const user = $('.js-user-search').val();
-    console.log('title=', title);
-    searchForSongs(title, user);
+    // const title = $('#title-input').val().toLowerCase().trim();
+    // const user = $('.js-user-search').val();
+    searchForSongs();
     renderPage();
   });  
 
