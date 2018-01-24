@@ -90,7 +90,7 @@ function generateSearchPageHTML(){
         </h2>
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
-        <input type='text' class='title-input, js-title-input, add-input' id='title-input' form='search-form' placeholder='title to search'>
+        <input type='text' class='title-input, js-title-input, add-input' name= 'title-input' id='title-input' form='search-form' placeholder='title to search'>
         </br>
           <p>OR</p>
         </br>
@@ -273,6 +273,7 @@ function searchSongByUser(userToSearch){
 function searchForSongs(title, user){
 
   if(title){
+
     searchSongByTitle(title);
     STORE.view = 'read';
   }
@@ -458,10 +459,12 @@ $(() => {
     renderPage();
   });
 
-  $('main').on('submit', '#search-form', event => {
+  $('main').on('click', '.js-search-button', function(event){
     event.preventDefault();
-    const title = $('.js-title-input').val();
+    console.log($('#title-input').val());
+    const title = $('#title-input').val().toLowerCase().trim();
     const user = $('.js-user-search').val();
+    console.log('title=', title);
     searchForSongs(title, user);
     renderPage();
   });  
