@@ -261,10 +261,12 @@ function searchSongByTitle(title){
   console.log('songs:', songs);
   if (songs.length === 1){
     STORE.currentSong = songs[0];
+    STORE.message = null;
     STORE.view = 'read';
   }
   else if (songs.length > 1){
     STORE.songsFromSearch = songs;
+    STORE.message = null;
     STORE.view = 'search-results';
   }
   else {
@@ -275,12 +277,11 @@ function searchSongByTitle(title){
 function searchSongByUser(userToSearch){
   const users = STORE.users;
   console.log('STORE.users:', STORE.users);
-  const userMatch = users.filter(user => user.username === userToSearch);
-  console.log('user:', userMatch[0]);
-  const songs = userMatch[0].songs;
+  const userMatch = users.find(user => user.username === userToSearch);
+  console.log('user:', userMatch);
+  const songs = userMatch.songs;
   STORE.songsFromSearch = songs;
   console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
-  // renderPage();
 }
 
 function searchForSongs(){

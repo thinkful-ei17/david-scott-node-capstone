@@ -1,3 +1,12 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 body {
   box-sizing: border-box;
   text-align: center;
@@ -8,7 +17,8 @@ body {
 
 nav.nav {
   background-color: #03A9F4;
-  width: 80%;
+  width: 100%;
+  max-width: 700px;
   padding: .7em;
   text-align: center;
   display: inline-block;
@@ -39,21 +49,32 @@ h2, h3 {
   padding: 2em;
 }
 
+h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5em;
+  background-color: #FFC107;
+}
+
 footer {
   background-color: #0288D1;
   height: 400px;
 }
 /*  */
-.home-page-button {
+.home-page-button, .search-button, .submit-buttons, .edit-buttons, .delete-buttons {
   background-color:#FFC107;
   display: inline-block;
   width: 40%;
-  margin: .4em auto;
+  margin: .4em 1em;
   box-sizing: border-box;
   padding: 5px; 
   color: #212121;
   position: relative;
+  border-radius: 3px;
+}
 
+.edit-buttons, .delete-buttons {
+  width: 25%;
 }
 
 button {
@@ -88,7 +109,7 @@ li {
 form {
   margin: 200px, auto;
   position: relative;
-  max-width: 600px;
+  max-width: 700px;
   border-radius: 5px;
 }
 
