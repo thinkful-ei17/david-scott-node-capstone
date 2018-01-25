@@ -1,14 +1,24 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+
 body {
   box-sizing: border-box;
   text-align: center;
-  margin: 1em auto;
-  background-color:#0288D1;
-  color: #212121;
+  margin: 0 auto;
+  /* background-color:#0288D1; */
+  color: #FFFFFF;
 }
 
 nav.nav {
   background-color: #03A9F4;
-  width: 80%;
+  width: 100%;
+  max-width: 700px;
   padding: .7em;
   text-align: center;
   display: inline-block;
@@ -27,23 +37,44 @@ header {
   margin: 1em 0;
   display: inline-block;
   position: relative;
-  background-color: #B3E5FC;;
+  background-color: #B3E5FC;
+  color:  #212121;
   width: 75%;
+  max-width: 600px;
   border-radius: 5px;
+}
 
+h2, h3 {
+  margin: 0;
+  padding: 2em;
+}
 
+h4 {
+  margin: 0;
+  padding: 0;
+  font-size: 1.5em;
+  background-color: #FFC107;
+}
+
+footer {
+  background-color: #0288D1;
+  height: 400px;
 }
 /*  */
-.home-page-button {
+.home-page-button, .search-button, .submit-buttons, .edit-buttons, .delete-buttons {
   background-color:#FFC107;
   display: inline-block;
   width: 40%;
-  margin: .4em auto;
+  margin: .4em 1em;
   box-sizing: border-box;
   padding: 5px; 
   color: #212121;
   position: relative;
+  border-radius: 3px;
+}
 
+.edit-buttons, .delete-buttons {
+  width: 25%;
 }
 
 button {
@@ -52,11 +83,18 @@ button {
 
 .home-buttons{
   background-color:#03A9F4;
-  display: inline-block
+  display: inline-block;
   text-align: center;
-  witdh: 80%;
-  
+  width: 100%;
+  margin: 1em auto;
 }
+
+#home-page-form {
+  position: relative;
+  margin: 0 auto;
+  background-color: #03A9F4;
+}
+
 ul {
   list-style-type: none;
   margin: 0;
@@ -71,6 +109,8 @@ li {
 form {
   margin: 200px, auto;
   position: relative;
+  max-width: 700px;
+  border-radius: 5px;
 }
 
 
@@ -78,8 +118,13 @@ main {
   /* position: absolute; */
   /* text-align: center; */
   top: 8em;
+  background-color: #0288D1;
 }
 
+
+div.nav-bar {
+  background-color: #0288D1;
+}
 nav {
   margin: 0;
 }
@@ -98,6 +143,7 @@ fieldset {
   margin-left: auto;
   margin-right: auto;
   text-align: left;
+  border: none;
 }
 
 .search-result {
@@ -117,5 +163,12 @@ fieldset {
 .read-lyrics {
   margin-left: auto;
   margin-right: auto;
-  width: 40%;
+  width: 50%;
+  white-space: pre-wrap;
+  text-align: left;
 }
+
+/* .user-input {
+  background-color: #FFFFFF;
+  opacity: 1;
+} */
