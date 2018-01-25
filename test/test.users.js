@@ -128,7 +128,7 @@ describe('Users endpoints tests', function() {
   
   describe('POST endpoint', function () {
   
-    it.only('should add a new User', function () {
+    it('should add a new User', function () {
       let songs;
       return chai.request(app)
         .get('/songs')
