@@ -30,6 +30,7 @@ function generateHomePageHTML(){
 
 function generateAddPageHTML() {
   return `
+  <h2> Store a Song in the Cellar! </h2>
   <form id="add-form" class="view">
     <fieldset>
       <label for='user-choose'>User</label>
@@ -86,7 +87,7 @@ function generateSearchPageHTML(){
   return `
       <form name='search-form' class='search-form, js-search-form' id='search-form'>
         <h2 for='search-form'>
-          Search the Database!
+          Search the Cellar!
         </h2>
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
@@ -113,7 +114,7 @@ function generateSearchResultsHTML() {
 
   return `
     <header>
-      <h1>Pick A Song!</h1>
+      <h2>Select a Vintage!</h2>
     </header>
 
     <section class='show-results, js-show-results'>
@@ -126,7 +127,7 @@ function generateSearchResultsHTML() {
 
 function generateListPageHTML() {
   return `
-    <h2>List of All Songs</h2>
+    <h2>Cellar's Complete Inventory!</h2>
     <ul class='songs-list'>
       ${renderList().join('')}
     </ul>
@@ -192,7 +193,7 @@ function renderSearchPage(){
   console.log('renderSearchPage ran');
   $('main').html(generateSearchPageHTML());
   if(STORE.message){
-    $('main').append(`<h4>${STORE.message}</h4>`);
+    $('main').append(`<h2>${STORE.message}</h2>`);
   }
 }
 

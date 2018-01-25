@@ -8,21 +8,37 @@ html {
 }
 
 body {
-  /* background-image: url("https://static.pexels.com/photos/65210/beer-a-pint-cup-alcohol-65210.jpeg"); */
   background-repeat: no-repeat;
-  background-image: url("https://static.pexels.com/photos/669213/pexels-photo-669213.jpeg");
+  background-image: url('./beerMug.jpeg');
   background-size: cover;
   color: #FFFFFF;
-/*   text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575; */
   text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
   text-align: center;
+}
+
+h1 {
+  font-size: 5em;
+  margin-bottom: .5em;
+}
+
+h2 {
+  font-size: 2.5em;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.5em;
 }
 
 header {
   color: #FFFFFF;
   margin: 2em;
   text-align: center;
-   text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+  text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
 }
 nav {
   background-color: #757575;
@@ -30,8 +46,13 @@ nav {
   height: 1.5em;
   padding: 3px;
   text-align: right;
-  border-radius: 3px
+  border-radius: 3px;
+  margin-bottom: 3em;
+  font-size: 1.3em;
 
+}
+a:hover, a:focus {
+  color:rgb(255, 193, 7); 
 }
 
 a {
@@ -48,19 +69,28 @@ a {
    text-align: center;
    box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
    padding-left: 1.2em;
-   margin: 0 1.7em;
+   margin: 0 1.7em 10em;
    background-color:rgba(255, 193, 7, .1);
    border-radius: 3px;
+}
+
+.home-page-button {
+  margin-bottom: 1em;
+}
+
+.edit-buttons {
+  font-size: 1.5em;
+  margin-bottom: 1em;
 }
 
 .submit-buttons {
   margin: 1em;
 /*   margin-left: %; */
   position: relative;
-  left: 55%;
+  left: 40%;
 }
 
-label:hover {
+label:hover, label:focus {
   background-color: rgb(255, 193, 7);
 }
 
@@ -68,13 +98,16 @@ button{
    opacity: 0;
  }
 
+li:last-child{
+    margin-bottom: 20em;
+}
 .search-button {
    display: inline-block;
    text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
    text-align: center;
    box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
    padding:0 1.2em;
-   margin: 1.7em;
+   margin: 1.7em 1.7em 1em;
    background-color:rgba(255, 193, 7, .1);
    border-radius: 3px;
 }
@@ -92,8 +125,12 @@ button{
   opacity: .79;
   padding: 1em;
   border-radius: 10px;
+  font-size: 1.3em;
 }
 
+.read-view {
+  font-size: 2em;
+}
 #read{
   width: 80%;
   margin-left: auto;
@@ -101,12 +138,7 @@ button{
 
 }
 
-select {
-  opacity: .7;
-}
-
 .add-input {
-  opacity: .7;
   border-radius: 5px;
 }
 
@@ -119,10 +151,12 @@ select {
   position: relative; 
   left: 3px; 
 }
-
+form {
+  font-size: 1.5em;
+}
 
 fieldset {
-  margin: 1em auto 4em; 
+  margin: 1em auto 10em; 
   padding: 1em; 
   width: 30%;
   text-align: left;
@@ -138,6 +172,7 @@ ul {
   margin: 0;
   list-style:none;
   text-align: center;
+  font-size: 1.3em;
   /*   margin-left:auto;
   margin-right:auto; */
 }
@@ -150,7 +185,7 @@ li {
   }
 
 
-.song:hover {
+.song:hover, .song:focus{
   color: rgb(255, 193, 7);
 } 
  
