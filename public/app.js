@@ -291,9 +291,11 @@ function searchForSongs(){
   console.log(`title: ${title} user: ${user}`);
 
   if(title){
+    STORE.message  = null,
     searchSongByTitle(title);
   }
   else if(user){
+    STORE.message = null,
     searchSongByUser(user);
     STORE.view = 'search-results';
   }
@@ -437,21 +439,25 @@ function editSong(event) {
 
 function navBarEventListeners(){
   $('.nav-bar').on('click', '#nav-home', () => {
+    STORE.message = null;
     STORE.view = 'home';
     renderPage();
   });
 
   $('.nav-bar').on('click', '#nav-search', () => {
+    STORE.message = null;
     STORE.view = 'search';
     renderPage();
   });
   
   $('.nav-bar').on('click', '#nav-add', () => {
+    STORE.message = null;
     STORE.view = 'add';
     renderPage();
   });
 
   $('.nav-bar').on('click', '#nav-list', () => {
+    STORE.message = null;
     STORE.view = 'list';
     renderPage();
   });
