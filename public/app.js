@@ -486,8 +486,6 @@ $(() => {
 
   $('main').on('click', '.js-search-button', function(event){
     event.preventDefault();
-    // const title = $('#title-input').val().toLowerCase().trim();
-    // const user = $('.js-user-search').val();
     searchForSongs();
     renderPage();
   });  
