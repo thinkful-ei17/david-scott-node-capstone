@@ -96,7 +96,7 @@ function generateSearchPageHTML(){
           <p>OR</p>
         </br>
         <lable for='title-search' class='search-lable'>Search By User</lable>
-        <select name='user-search' class='user-search, js-user-search' id='user-search' form='search-form'>
+        <select name='user-search' class='user-search js-user-search user-input' id='user-search' form='search-form'>
             <option></option>
             ${generateUserOptionsHTML()}
         </select>

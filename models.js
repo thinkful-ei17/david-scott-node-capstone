@@ -48,14 +48,14 @@ UserSchema.methods.serialize = function () {
   };
 };
 
-// "_id": "5a5d27ad329925a308e1f46f",
-//   "title": "New new new!",
-//     "lyrics": "Singing a newer song",
-//       "__v": 0,
-//         "notes": "none2",
-//           "artist": "artist2"
 const User = mongoose.model('User', UserSchema);
 const Song = mongoose.model('Song', SongSchema);
+
+
+module.exports = { User, Song };
+
+
+// // ======this code is for re-setting our database==================
 
 // mongoose.connect(DATABASE_URL)
 //   .then(function(){
@@ -83,5 +83,5 @@ const Song = mongoose.model('Song', SongSchema);
 // });
 
 
-module.exports = {User, Song};
+
 
