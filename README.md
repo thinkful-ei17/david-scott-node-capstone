@@ -1,6 +1,6 @@
-#Welcome to Song Cellar!
+# Welcome to Song Cellar!
 
-##Refresh your memory while filling your glass!
+## Refresh your memory while filling your glass!
 
 Pub sings are great fun, but sometimes song leaders need a little help...
 especially when the beer is flowing!
@@ -17,7 +17,7 @@ Want to review a song before a night out?
 ![Song Cellar Landing Page](./cellar-shots/Welcome.jpg)
 
 
-##Song Cellar is an easy place to store and locate song lyrics for pub sings.
+## Song Cellar is an easy place to store and locate song lyrics for pub sings.
 
 ![Song Cellar Store-a-Song Page](./cellar-shots/Add.jpg)
 
