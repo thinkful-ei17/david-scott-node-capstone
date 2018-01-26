@@ -3,7 +3,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
-const faker = require('faker');
 
 const should = chai.should();
 
@@ -192,57 +191,39 @@ describe('Users endpoints tests', function() {
           resUser = res.body;
           // console.log(res.body);
           return User.findById(updateData.id)
-            .then(res => {
-              res.firstName.should.equal(updateData.firstName);
-              res.lastName.should.equal(updateData.lastName);
-              //this test should have more things, like song... 
-              //but I'm having trouble with the song population right now, 
-              //so I'm skipping it.
-            });  
-        });
+        })
+        .then(res => {
+          res.firstName.should.equal(updateData.firstName);
+          res.lastName.should.equal(updateData.lastName);
+          //this test should have more things, like song... 
+          //but I'm having trouble with the song population right now, 
+          //so I'm skipping it.
+        });  
     });
   });        
 
-// describe('DELETE endpoint', function () {
+  describe('DELETE endpoint', function () {
   
-//   it('should delete a post by id when authenticated', function () {
+    it('should delete a post by id when authenticated', function () {
   
-//     let post;
-  
-//     return BlogPost
-//       .findOne()
-//       .then(_post => {
-//         post = _post;
-//         return chai.request(app)
-//           .delete(`/posts/${post.id}`)
-//           .send({ username: 'bt', password: 'baseball'});
-//       })
-//       .then(res => {
-//         // console.log('1----------------');
-//         // console.log(JSON.stringify(res, null, 4));
-//         // console.log('2----------------');
-  
-//         res.should.have.status(204);
-//         return BlogPost.findById(post.id);
-//       })
-//       .then(_post => {
-//         // when a variable's value is null, chaining `should`
-//         // doesn't work. so `_post.should.be.null` would raise
-//         // an error. `should.be.null(_post)` is how we can
-//         // make assertions about a null value.
-//         should.not.exist(_post);
-//       });
-//     // .catch( res => {
-//     //     console.log('1----------------');
-//     //     console.log(JSON.stringify(res.response.text, null, 4));
-//     //     console.log('2----------------');
-//     //     // i want it to fail; so i put 200 instead of 500
-//     //     res.should.have.status(200);
-//     // });
-//   });
-// });
-  
-// });
-  
-});
+      let user;
 
+      return  User
+        .findOne()
+        .then(_user => {
+          user = _user;
+          return chai.request(app)
+            .delete(`/users/${user.id}`)
+            .send({id: user.id});
+        }) 
+        .then(res => {
+          res.should.have.status(204);
+          return User.findById(user.id);
+        })
+        .then(_user => {
+          should.not.exist(_user);
+        })
+        .catch( err => console.error(err));
+    });
+  });
+});
