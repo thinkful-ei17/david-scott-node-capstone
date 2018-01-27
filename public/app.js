@@ -64,6 +64,7 @@ function generateAddPageHTML() {
 
 function generateReadPageHTML() {
   const song = STORE.currentSong;
+  console.log('store.currentSong:', STORE.currentSong);
   return `
   <div id="read" class="view">
     <h3>Title: ${song.title}</h3>
@@ -365,7 +366,7 @@ function createSong(event) {
       STORE.insertSong(response);
       STORE.currentSong = response;
       const formatResponse = {
-        song_id: response.id,
+        id: response.id,
         title: response.title,
         artist: response.artist
       };
