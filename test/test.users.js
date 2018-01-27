@@ -127,7 +127,7 @@ describe('Users endpoints tests', function() {
   
   describe('POST endpoint', function () {
   
-    it.only('should add a new User', function () {
+    it('should add a new User', function () {
       let songs;
       let newUser;
       return chai.request(app)
@@ -150,7 +150,7 @@ describe('Users endpoints tests', function() {
             .send(newUser)
             .then(res => {
               // console.log('stringified:', JSON.stringify(res, null, 4));
-              console.log('last res is:',JSON.stringify(res.body, null, 4));
+              // console.log('last res is:',JSON.stringify(res.body, null, 4));
               res.should.be.json;
               res.body.should.be.a('object');
               res.body.should.include.keys('id', 'username', 'name', 'songs');
@@ -159,10 +159,10 @@ describe('Users endpoints tests', function() {
               res.body.id.should.not.be.null;
               res.should.have.status(201);
               res.body.name.should.equal(`${newUser.firstName} ${newUser.lastName}`);
-              console.log('res.body.songs:', res.body.songs);
+              // console.log('res.body.songs:', res.body.songs);
+              res.body.songs.should.be.a('array');
+              res.body.songs[0].should.be.a('object');
               res.body.songs[0].id.should.equal(newUser.songs[0]._id);
-              //the song thing is having trouble - I think because of the cross-pollination
-              //need to figure out how to work that out
             });
         });    
     });  
@@ -191,15 +191,12 @@ describe('Users endpoints tests', function() {
         .then(res => {
           res.should.have.status(205);
           resUser = res.body;
-          // console.log(res.body);
-          return User.findById(updateData.id)
+          // console.log('res.body:', res.body);
+          return User.findById(updateData.id);
         })
         .then(res => {
           res.firstName.should.equal(updateData.firstName);
           res.lastName.should.equal(updateData.lastName);
-          //this test should have more things, like song... 
-          //but I'm having trouble with the song population right now, 
-          //so I'm skipping it.
         });  
     });
   });        
