@@ -40,7 +40,7 @@ UserSchema.methods.serialize = function () {
     name: this.name,
     songs: this.songs.map(song => {
       return {
-        song_id: song._id,
+        id: song._id,//just changed this from song_id... may have broken things
         title: song.title,
         artist: song.artist
       };
