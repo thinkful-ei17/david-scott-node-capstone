@@ -204,6 +204,7 @@ function renderSearchResultsPage() {
 
 function renderList() {
   return STORE.list.map(song => {
+    console.log('song in render list:', song);
     return `
     <li id="${song.id}">
       <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
@@ -307,8 +308,9 @@ function searchForSongs(){
 function makeSearchResultsList(){
   //change this back to STORE.songsFromSearch when I figure out that part//
   const resultList = STORE.songsFromSearch.map(song => {
+    console.log('song in resultsListis:', song);
     return `
-    <li id="${song.song_id}">
+    <li id="${song.id}">
       <a href="#" class="song">${song.title}</a><span>Written By:${song.artist}</span>
     </li>
     `;
