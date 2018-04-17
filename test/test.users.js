@@ -3,7 +3,6 @@
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const mongoose = require('mongoose');
-const faker = require('faker');
 
 const should = chai.should();
 
@@ -94,7 +93,7 @@ describe('Users endpoints tests', function() {
       return chai.request(app)
         .get('/users')
         .then(res => {
-          console.log('correct fields initial response:',  res);
+          // console.log('correct fields initial response:',  res);
           res.should.be.status(200);
           res.body.forEach(user => {
             user.should.be.a('object');
@@ -128,17 +127,18 @@ describe('Users endpoints tests', function() {
   
   describe('POST endpoint', function () {
   
-    it.only('should add a new User', function () {
+    it('should add a new User', function () {
       let songs;
+      let newUser;
       return chai.request(app)
         .get('/songs')
         .then(res =>{
-          console.log(res.body);
+          // console.log(res.body);
           songs = res.body;
           return songs;
         })
         .then( songs => {
-          const newUser = {
+          newUser = {
             username: 'newUser',
             firstName: 'Brandy',
             lastName: 'Newman',
@@ -149,8 +149,8 @@ describe('Users endpoints tests', function() {
             .post('/users')
             .send(newUser)
             .then(res => {
-              console.log('stringified:', JSON.stringify(res, null, 4));
-              console.log('last res is:',JSON.stringify(res.body, null, 4));
+              // console.log('stringified:', JSON.stringify(res, null, 4));
+              // console.log('last res is:',JSON.stringify(res.body, null, 4));
               res.should.be.json;
               res.body.should.be.a('object');
               res.body.should.include.keys('id', 'username', 'name', 'songs');
@@ -159,9 +159,10 @@ describe('Users endpoints tests', function() {
               res.body.id.should.not.be.null;
               res.should.have.status(201);
               res.body.name.should.equal(`${newUser.firstName} ${newUser.lastName}`);
-              // res.body.songs.should.equal(newUser.songs);
-              //the song thing is having trouble - I think because of the cross-pollination
-              //need to figure out how to work that out
+              // console.log('res.body.songs:', res.body.songs);
+              res.body.songs.should.be.a('array');
+              res.body.songs[0].should.be.a('object');
+              res.body.songs[0].id.should.equal(newUser.songs[0]._id);
             });
         });    
     });  
@@ -180,7 +181,7 @@ describe('Users endpoints tests', function() {
       return User
         .findOne()
         .then(res => {
-          console.log('res:', res);
+          // console.log('res:', res);
           updateData.id = res._id;
   
           return chai.request(app)
@@ -190,59 +191,38 @@ describe('Users endpoints tests', function() {
         .then(res => {
           res.should.have.status(205);
           resUser = res.body;
-          console.log(res.body);
-          return User.findById(updateData.id)
-            .then(res => {
-              res.firstName.should.equal(updateData.firstName);
-              res.lastName.should.equal(updateData.lastName);
-              //this test should have more things, like song... 
-              //but I'm having trouble with the song population right now, 
-              //so I'm skipping it.
-            });  
-        });
+          // console.log('res.body:', res.body);
+          return User.findById(updateData.id);
+        })
+        .then(res => {
+          res.firstName.should.equal(updateData.firstName);
+          res.lastName.should.equal(updateData.lastName);
+        });  
     });
   });        
 
-// describe('DELETE endpoint', function () {
+  describe('DELETE endpoint', function () {
   
-//   it('should delete a post by id when authenticated', function () {
+    it('should delete a post by id when authenticated', function () {
   
-//     let post;
-  
-//     return BlogPost
-//       .findOne()
-//       .then(_post => {
-//         post = _post;
-//         return chai.request(app)
-//           .delete(`/posts/${post.id}`)
-//           .send({ username: 'bt', password: 'baseball'});
-//       })
-//       .then(res => {
-//         // console.log('1----------------');
-//         // console.log(JSON.stringify(res, null, 4));
-//         // console.log('2----------------');
-  
-//         res.should.have.status(204);
-//         return BlogPost.findById(post.id);
-//       })
-//       .then(_post => {
-//         // when a variable's value is null, chaining `should`
-//         // doesn't work. so `_post.should.be.null` would raise
-//         // an error. `should.be.null(_post)` is how we can
-//         // make assertions about a null value.
-//         should.not.exist(_post);
-//       });
-//     // .catch( res => {
-//     //     console.log('1----------------');
-//     //     console.log(JSON.stringify(res.response.text, null, 4));
-//     //     console.log('2----------------');
-//     //     // i want it to fail; so i put 200 instead of 500
-//     //     res.should.have.status(200);
-//     // });
-//   });
-// });
-  
-// });
-  
-});
+      let user;
 
+      return  User
+        .findOne()
+        .then(_user => {
+          user = _user;
+          return chai.request(app)
+            .delete(`/users/${user.id}`)
+            .send({id: user.id});
+        }) 
+        .then(res => {
+          res.should.have.status(204);
+          return User.findById(user.id);
+        })
+        .then(_user => {
+          should.not.exist(_user);
+        })
+        .catch( err => console.error(err));
+    });
+  });
+});

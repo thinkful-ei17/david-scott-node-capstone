@@ -1,0 +1,218 @@
+html {
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+  
+}
+
+body {
+  background-repeat: no-repeat;
+  background-image: url('./beerMug.jpeg');
+  background-size: cover;
+  color: #FFFFFF;
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+  text-align: center;
+}
+
+h1 {
+  font-size: 5em;
+  margin-bottom: .5em;
+}
+
+h2 {
+  font-size: 2.5em;
+  margin-top: 0;
+}
+
+h3 {
+  font-size: 2em;
+}
+
+p {
+  font-size: 1.5em;
+}
+
+header {
+  color: #FFFFFF;
+  margin: 2em;
+  text-align: center;
+  text-shadow: -2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+}
+
+nav {
+  background-color: #757575;
+  margin-bottom: 3em;
+  padding: 3px;
+  font-size: 1.3em;
+  height: 1.5em;
+  text-align: right;
+  opacity: .79;
+  border-radius: 3px;
+}
+
+a:hover, a:focus {
+  color:rgb(255, 193, 7); 
+}
+
+a {
+  text-decoration: none;
+  color: #FFFFFF;
+  margin-right:.5em;
+}
+
+.home-buttons {
+  text-align: center;
+}
+
+.home-page-button, .edit-buttons, .submit-buttons {
+  display: inline-block;
+  padding-left: 1.2em;
+  margin: 0 1.7em 10em;
+  background-color:rgba(255, 193, 7, .1);
+  text-align: center;
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+  box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+  border-radius: 3px;
+}
+
+.home-page-button {
+  margin-bottom: 1em;
+}
+
+.edit-buttons {
+  font-size: 1.5em;
+  margin-bottom: 1em;
+}
+
+.submit-buttons {
+  margin: 1em;
+  position: relative;
+  left: 40%;
+}
+
+button{
+   opacity: 0;
+}
+
+.search-button {
+  display: inline-block;
+  padding:0 1.2em;
+  margin: 1.7em 1.7em 1em;
+  background-color:rgba(255, 193, 7, .1);
+  text-align: center;
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+  box-shadow:-2px 0 #757575, 0 1px #757575, 1px 0 #757575, 0 -1px #757575;
+  border-radius: 3px;
+}
+
+.search-lable {
+  font-size: 1.1em;
+  text-align: center;
+  text-shadow: -1px 0 #212121,0 1px #212121,1px 0 #212121,0 -1px #212121;
+}
+
+label:hover, label:focus {
+  background-color: rgb(255, 193, 7);
+}
+
+.read-lyrics {
+  margin: 1em 0 auto;
+  padding: 1em;
+  font-size: 1.3em;
+  white-space: pre-wrap;
+  text-align: left;
+  background-color: #757575;
+  opacity: .79;
+  border-radius: 10px;
+}
+
+.read-view {
+  font-size: 2em;
+}
+
+#read{
+  width: 80%;
+  margin-left: auto;
+  margin-right:auto;
+}
+
+.add-input {
+  border-radius: 5px;
+  opacity: .9;
+  /* font-size: .8em; */
+}
+
+.user-input, .title-input { 
+  position: relative; 
+  left: 10px;
+  opacity: .9; 
+  /* font-size: .8em; */
+}
+
+select {
+  font-size: .8em;
+}
+
+.artist-input, .notes-input { 
+  position: relative; 
+  left: 3px; 
+  opacity: .9;
+  /* font-size: .8em; */
+}
+
+.lyrics-input{
+  opacity: .9;
+  border-radius: 5px;
+  /* font-size: .8em; */
+}
+
+input {
+  font-size: .8em;
+}
+
+form {
+  font-size: 1.5em;
+}
+
+fieldset {
+  margin: 1em auto 10em; 
+  padding: 1em; 
+  width: 30%;
+  text-align: left;
+  border-radius: 10px
+}
+
+ul {
+  display: inline-block;
+  margin: 0;
+  list-style:none;
+  text-align: center;
+  font-size: 1.3em;
+  /*   margin-left:auto;
+  margin-right:auto; */
+}
+
+li {
+  list-style: none;
+  padding: .5em;
+  text-align: center;
+  margin-right:30px;
+  }
+
+li:last-child{
+    margin-bottom: 20em;
+}
+
+.song:hover, .song:focus{
+  color: rgb(255, 193, 7);
+} 
+ 
+span {
+  padding-left: 1em
+}
+
+main {
+  text-align: center;
+}

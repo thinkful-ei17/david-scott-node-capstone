@@ -13,7 +13,7 @@ function generateHomePageHTML(){
     <h2>Refresh your memory while filling your glass!</h2>
   </header>
 
-  <form>
+  <form id='home-page-form'>
   <div class='home-buttons'>
     <label for='home-submit-search' class='button, home-page-button' id='home-to-search'>To the Search!
       <button class='to-search, js-to-search' id='home-submit-search'>
@@ -30,9 +30,10 @@ function generateHomePageHTML(){
 
 function generateAddPageHTML() {
   return `
+  <h2> Store a Song in the Cellar! </h2>
   <form id="add-form" class="view">
     <fieldset>
-      <span>User</span>
+      <label for='user-choose'>User</label>
       <select name='user-choose' class='user-choose, js-user-choose, add-input user-input' id='user-choose' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
@@ -53,7 +54,9 @@ function generateAddPageHTML() {
         <label for="notes">Notes</label>
         <input class='add-input notes-input' type="text" name="notes">
       </div>
-      <button id="submit-add">Submit</button>
+      <label for="submit-add" class="submit-buttons">Add Song
+      <button id="submit-add"></button>
+      </label>
     </fieldset>
   </form>
   `;
@@ -61,15 +64,22 @@ function generateAddPageHTML() {
 
 function generateReadPageHTML() {
   const song = STORE.currentSong;
+  console.log('store.currentSong:', STORE.currentSong);
   return `
   <div id="read" class="view">
     <h3>Title: ${song.title}</h3>
     <p>Artist: ${song.artist}</p>
-    <p class='read-lyrics'>Lyrics:</br>${song.lyrics}</p>
+    <p class='read-lyrics'>
+      ${song.lyrics}
+    </p>
     <p>Notes:</br>${song.notes}</p>
-    <button id='edit-button'>Edit</button>
-    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'>Delete</button>
-  </div>
+    <label for='edit-button' class='edit-buttons'>Edit
+        <button id='edit-button'></button>
+    </label>
+    <label for='delete-button' class='edit-buttons'>Delete   
+    <button onclick="return confirm('Are you sure you want to delete?')" id='delete-button'></button>
+    </label>
+    </div>
 
   `;
 }
@@ -78,21 +88,24 @@ function generateSearchPageHTML(){
   return `
       <form name='search-form' class='search-form, js-search-form' id='search-form'>
         <h2 for='search-form'>
-          Search the Database!
+          Search the Cellar!
         </h2>
       
         <lable for='title-input' class='search-lable'>Search by Title</lable>
-        <input type='text' class='title-input, js-title-input' id='title-input' form='search-form' placeholder='title to search'>
-      
+        <input type='text' class='title-input, js-title-input, add-input' name= 'title-input' id='title-input' form='search-form' placeholder='title to search'>
+        </br>
+          <p>OR</p>
+        </br>
         <lable for='title-search' class='search-lable'>Search By User</lable>
-        <select name='user-search' class='user-search, js-user-search' id='user-search' form='search-form'>
+        <select name='user-search' class='user-search js-user-search user-input' id='user-search' form='search-form'>
             <option></option>
             ${generateUserOptionsHTML()}
         </select>
-      
+        </br>
+        <label for='search-submit' class='search-button'>Search Now!</label>
         <button class='search-button, js-search-button' id='search-submit'>
-          Search Now!
         </button>
+        </label>
       </form>
     `;
 }
@@ -102,7 +115,7 @@ function generateSearchResultsHTML() {
 
   return `
     <header>
-      <h1>Pick A Song!</h1>
+      <h2>Select a Vintage!</h2>
     </header>
 
     <section class='show-results, js-show-results'>
@@ -115,7 +128,7 @@ function generateSearchResultsHTML() {
 
 function generateListPageHTML() {
   return `
-    <h2>List of All Songs</h2>
+    <h2>Cellar's Complete Inventory!</h2>
     <ul class='songs-list'>
       ${renderList().join('')}
     </ul>
@@ -126,18 +139,18 @@ function generateEditPageHTML() {
   return `
   <form id="edit-form" class="view">
     <fieldset>
-      <span>User</span>
-      <select name='user-choose' class='user-choose, js-user-choose user-input' id='user-choose' form='add-form' required>
+      <label for='user-choose-edit'>User</label>
+      <select name='user-choose' class='user-choose, js-user-choose user-input' id='user-choose-edit' form='add-form' required>
       <option></option>
       ${generateUserOptionsHTML()}
       </select>
       <div>
         <label for="title">Title</label>
-        <input class='title-input' type="text" name="title" required>
+        <input class='title-input add-input' type="text" name="title" required>
       </div>
       <div>
         <label for="artist">Artist</label>
-        <input class='artist-input' type="text" name="artist">
+        <input class='artist-input add-input' type="text" name="artist">
       </div> 
       <div>
         <label for="lyrics">Lyrics</label>
@@ -145,9 +158,11 @@ function generateEditPageHTML() {
       </div>
       <div>
         <label for="notes">Notes</label>
-        <input class='notes-input' type="text" name="notes">
+        <input class='notes-input add-input' type="text" name="notes">
       </div>
-      <button id="submit-add">Submit</button>
+      <label for="submit-edit" class="submit-buttons">Edit Song
+      <button id="submit-edit"></button>
+      </label>
     </fieldset>
   </form>
   `;
@@ -178,6 +193,9 @@ function renderReadPage() {
 function renderSearchPage(){
   console.log('renderSearchPage ran');
   $('main').html(generateSearchPageHTML());
+  if(STORE.message){
+    $('main').append(`<h2>${STORE.message}</h2>`);
+  }
 }
 
 function renderSearchResultsPage() {
@@ -187,6 +205,7 @@ function renderSearchResultsPage() {
 
 function renderList() {
   return STORE.list.map(song => {
+    console.log('song in render list:', song);
     return `
     <li id="${song.id}">
       <a href="#" class="song">${song.title}</a> <span>By:${song.artist}</span>
@@ -240,40 +259,59 @@ function renderPage() {
 // Helper Functions
 
 function searchSongByTitle(title){
-  const songs = STORE.list;
-  const song = songs.find(song => song.title === title);
-  console.log('song:', song);
-  STORE.currentSong = song;
+  console.log('store.list[0]:', STORE.list[0]);
+  const songs = STORE.list.filter(song => song.title.toLowerCase().includes(title));
+  console.log('songs:', songs);
+  if (songs.length === 1){
+    STORE.currentSong = songs[0];
+    STORE.message = null;
+    STORE.view = 'read';
+  }
+  else if (songs.length > 1){
+    STORE.songsFromSearch = songs;
+    STORE.message = null;
+    STORE.view = 'search-results';
+  }
+  else {
+    STORE.message = 'There is no match for that title.';
+  }
 }
 
 function searchSongByUser(userToSearch){
   const users = STORE.users;
   console.log('STORE.users:', STORE.users);
-  const userMatch = users.filter(user => user.username === userToSearch);
-  console.log('user:', userMatch[0]);
-  const songs = userMatch[0].songs;
+  const userMatch = users.find(user => user.username === userToSearch);
+  console.log('user:', userMatch);
+  const songs = userMatch.songs;
   STORE.songsFromSearch = songs;
   console.log('STORE.songsFromSearch:', STORE.songsFromSearch);
-  // renderPage();
 }
 
-function searchForSongs(title, user){
+function searchForSongs(){
+  const title = $('#title-input').val().toLowerCase().trim();
+  const user = $('.js-user-search').val();
+  console.log(`title: ${title} user: ${user}`);
 
   if(title){
+    STORE.message  = null,
     searchSongByTitle(title);
-    STORE.view = 'read';
   }
-  if(user){
+  else if(user){
+    STORE.message = null,
     searchSongByUser(user);
     STORE.view = 'search-results';
+  }
+  else {
+    STORE.message = 'The search will work better if you enter a title OR select a User.'; 
   }
 }
 
 function makeSearchResultsList(){
   //change this back to STORE.songsFromSearch when I figure out that part//
   const resultList = STORE.songsFromSearch.map(song => {
+    console.log('song in resultsListis:', song);
     return `
-    <li id="${song.song_id}">
+    <li id="${song.id}">
       <a href="#" class="song">${song.title}</a><span>Written By:${song.artist}</span>
     </li>
     `;
@@ -328,7 +366,7 @@ function createSong(event) {
       STORE.insertSong(response);
       STORE.currentSong = response;
       const formatResponse = {
-        song_id: response.id,
+        id: response.id,
         title: response.title,
         artist: response.artist
       };
@@ -404,21 +442,25 @@ function editSong(event) {
 
 function navBarEventListeners(){
   $('.nav-bar').on('click', '#nav-home', () => {
+    STORE.message = null;
     STORE.view = 'home';
     renderPage();
   });
 
   $('.nav-bar').on('click', '#nav-search', () => {
+    STORE.message = null;
     STORE.view = 'search';
     renderPage();
   });
   
   $('.nav-bar').on('click', '#nav-add', () => {
+    STORE.message = null;
     STORE.view = 'add';
     renderPage();
   });
 
   $('.nav-bar').on('click', '#nav-list', () => {
+    STORE.message = null;
     STORE.view = 'list';
     renderPage();
   });
@@ -445,11 +487,9 @@ $(() => {
     renderPage();
   });
 
-  $('main').on('submit', '#search-form', event => {
+  $('main').on('click', '.js-search-button', function(event){
     event.preventDefault();
-    const title = $('.js-title-input').val();
-    const user = $('.js-user-search').val();
-    searchForSongs(title, user);
+    searchForSongs();
     renderPage();
   });  
 

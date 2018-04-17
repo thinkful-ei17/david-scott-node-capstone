@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     .find()
     .populate('songs')
     .then(users => {
-      console.log('are there songs from the users here?', users);
+      // console.log('are there songs from the users here?', users);
       res.json(users.map(user => user.serialize()));
     })
     .catch(err => {
@@ -27,7 +27,7 @@ router.get('/:id', (req, res) => {
     .findById(req.params.id)
     .populate('songs')
     .then(user => {
-      console.log(user);
+      // console.log(user);
       res.json(user.serialize());
     })
     .catch(err => {
@@ -40,6 +40,7 @@ router.post('/', (req, res) => {
   // I want to check if all user.songs is in our songs db
   for (let i = 0; i < req.body.songs.length; i++) {
     const id = req.body.songs[i]._id;
+    console.log('req.body.songs[i]._id:', id);
     Song
       .findById(id)
       .then(() => {})
@@ -57,6 +58,7 @@ router.post('/', (req, res) => {
       return res.status(400).send(message);
     }
   }
+  // const songs = req.body.songs;
 
   User
     .create({
@@ -64,9 +66,14 @@ router.post('/', (req, res) => {
       firstName: req.body.firstName,
       lastName: req.body.lastName,
       songs: req.body.songs
-    })
+    }) 
     .then(user => 
-      res.status(201).json(user.serialize()))
+      user.populate('songs').execPopulate()
+    )   
+    .then(user => {
+      console.log('stringified:', JSON.stringify(user));
+      return res.status(201).json(user.serialize());
+    })
     .catch(err=>console.error(err));
 });   
 
