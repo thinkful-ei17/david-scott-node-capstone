@@ -66,7 +66,7 @@ describe('Songs endpoints tests', function() {
         .then(_res => {
           res = _res;
           res.should.have.status(200);
-          res.body.should.have.length.of.at.least(1);
+          res.body.should.not.be.empty;
           return Song.count();
         })
         .then(count => {
@@ -82,7 +82,7 @@ describe('Songs endpoints tests', function() {
           res.should.have.status(200);
           res.should.be.json;
           res.body.should.be.a('array');
-          res.body.should.have.length.of.at.least(1);
+          res.body.should.not.be.empty;
           res.body.forEach(song => {
             song.should.be.a('object');
             song.should.include.keys('title', 'lyrics', 'artist', 'notes');
