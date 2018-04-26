@@ -49,10 +49,6 @@ describe('Songs endpoints tests', function() {
       });
   });
 
-  // afterEach(function () {
-  //   return tearDownDb();
-  // });
-
   after(function () {
     return closeServer();
   });
@@ -70,7 +66,7 @@ describe('Songs endpoints tests', function() {
           return Song.count();
         })
         .then(count => {
-          res.body.should.have.length.of(count);
+          res.body.should.have.lengthOf(count);
         });
     });
   
